@@ -9,7 +9,8 @@ body {
     padding: 20px;
     margin: 0;
     font-family: Arial, sans-serif;
-    background-image: linear-gradient(to bottom right, rgb(89, 124, 240), rgb(254, 255, 255));
+    /*background-image: linear-gradient(to bottom right, rgb(89, 124, 240), rgb(254, 255, 255));*/
+    background-color: cadetblue;
     overflow: hidden;
 }
 
