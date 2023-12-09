@@ -1,0 +1,172 @@
+
+/* General styling for the body */
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    padding: 20px;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-image: linear-gradient(to bottom right, rgb(89, 124, 240), rgb(254, 255, 255));
+    overflow: hidden;
+}
+
+/* Styling for the control buttons */
+#controls {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+}
+
+/* Styling for the buttons */
+button {
+    padding: 10px 15px;
+    border: none;
+    cursor: pointer;
+    background-color: #1E90FF;
+    color: #FFF;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #187bcd;
+}
+
+button:disabled {
+    background-color: #c7c7c7;
+    cursor: not-allowed;
+}
+
+
+/* ====================== Preview Container ====================== */
+
+
+/* Styling for the preview container */
+#preview-container {
+    position: relative;
+    justify-content: center;
+    align-items: center;
+    width: 1280px;
+    height: 720px;
+    border: 1px solid #187bcd;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+    overflow: hidden;
+    margin-bottom: 2%;
+}
+
+#draggable-webcam {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    cursor: grab;
+    /* Cursor appearance when hovering over the element */
+    border-radius: 32px;
+    overflow: hidden;
+    /* To apply the border-radius to the video */
+}
+
+
+#webcam-container {
+    border-radius: 32px !important;
+    overflow: hidden !important;
+}
+
+#webcam-preview {
+    width: 320px;
+    /* adjust as needed */
+    height: 180px;
+    /* adjust as needed */
+    border-radius: 16px;
+}
+
+/* ====================== Options Overlay ====================== */
+
+
+#optionsOverlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    flex-direction: column;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    display: none;
+}
+
+/* Styling for each options container */
+.options-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid #187bcd;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 8px;
+    margin: 20px 0;
+}
+
+/* Styling for the options buttons */
+.options-buttons {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+/* Styling for the individual option */
+.option {
+    background-color: #007BFF;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.option:hover {
+    background-color: #0056b3;
+}
+
+.option.selected {
+    background-color: #cf62c1;
+    color: #FFF;
+}
+
+/* Styling for the options title */
+.option-title {
+    margin-bottom: 10px;
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+/* Styling for the confirm container */
+#confirm-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin: 20px 0;
+}
+
+/* Styling for the confirm options button */
+#confirmOptions {
+    background-color: #007BFF;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#confirmOptions:hover {
+    background-color: #0056b3;
+}

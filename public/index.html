@@ -1,0 +1,72 @@
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SoLoScreenRecord</title>
+    <link rel="manifest" href="/manifest.webmanifest">
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    
+</head>
+
+<body>
+    <!-- Video Container -->
+    <div id="preview-container">
+        <!-- Video Previews -->
+        <video id="preview" autoplay muted></video>
+        <video id="combined-preview" autoplay muted playsinline></video>
+        <!-- Draggable Container for Webcam -->
+        <div id="draggable-webcam">
+            <div id="webcam-container"> <!-- New container -->
+                <video id="webcam-preview" autoplay></video>
+            </div>
+        </div>
+    </div>
+
+    
+
+    
+    <!-- Options Overlay -->
+    <div id="optionsOverlay">
+        <!-- Video Options Container -->
+        <div class="options-container">
+            <p class="option-title">Video Options</p>
+            <div class="options-buttons">
+                <button class="option" data-video="only-screen">Only Screen</button>
+                <button class="option" data-video="screen-camera">Screen + Camera</button>
+                <button class="option" data-video="only-camera">Only Camera</button>
+            </div>
+        </div>
+        
+        <!-- Audio Options Container -->
+        <div class="options-container">
+            <p class="option-title">Audio Options</p>
+            <div class="options-buttons">
+                <button class="option" data-audio="none">None</button>
+                <button class="option" data-audio="microphone">Microphone</button>
+                <button class="option" data-audio="system">System</button>
+                <button class="option" data-audio="system-mic">System + Mic</button>
+            </div>
+        </div>
+        
+        <!-- Confirm Options Button -->
+        <div id="confirm-container">
+            <button id="confirmOptions">Start Recording</button>
+        </div>
+    </div>
+
+    <!-- Control Buttons -->
+    <div id="controls">
+        <button id="start">Start</button>
+        <button id="stop">Stop</button>
+    </div>
+
+    <!-- Scripts -->
+    <script type="module" src="dragVideo.js"></script>
+    <script type="module" src="fileSaver.js"></script>
+    <script type="module" src="recordercontroller.js"></script>
+    <script type="module" src="main.js"></script>
+
+</body>
+
+</html>
