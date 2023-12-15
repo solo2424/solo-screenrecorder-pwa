@@ -9,8 +9,8 @@ body {
     padding: 20px;
     margin: 0;
     font-family: Arial, sans-serif;
-    /*background-image: linear-gradient(to bottom right, rgb(89, 124, 240), rgb(254, 255, 255));*/
-    background-color: cadetblue;
+    background-image: linear-gradient(to bottom right, rgb(89, 124, 240), rgb(254, 255, 255));
+    
     overflow: hidden;
 }
 
@@ -65,6 +65,8 @@ button:disabled {
     position: absolute;
     bottom: 0;
     right: 0;
+    left: 0;
+    top: 0 ;
     cursor: grab;
     /* Cursor appearance when hovering over the element */
     border-radius: 32px;
@@ -170,4 +172,8 @@ button:disabled {
 
 #confirmOptions:hover {
     background-color: #0056b3;
+}
+
+[data-video="only-camera"] {
+    background-color: yellow;
 }

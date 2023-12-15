@@ -1,97 +1,83 @@
-// Import modules
+// public/main.js
+
+// Import modules 
 import RecorderController from './recorderController.js';
 import { saveAs } from './fileSaver.js';
 
-// DOMContentLoaded event handler
-document.addEventListener('DOMContentLoaded', () => {
-    // Initialize controller
-    const controller = new RecorderController();
+// DOM elements  
+const startBtn = document.getElementById('start');
+const stopBtn = document.getElementById('stop');
+const optionsOverlay = document.getElementById('optionsOverlay');
+const confirmBtn = document.getElementById('confirmOptions');
+const videoOptions = document.querySelectorAll('.option');
 
-    // Initialize dragging variables
-    let isDragging = false;
-    let offsetX, offsetY;
+// State
+let isRecording = false;
 
-    // Initialize elements
-    const draggableWebcam = document.getElementById('draggable-webcam');
-    const videoContainer = document.getElementById('preview-container');
-    const webcamPreview = document.getElementById('webcam-preview');
+// Initialize 
+const controller = new RecorderController();
 
-    // Log the initial status of elements
-    console.log(`Initial status - draggableWebcam: ${draggableWebcam.offsetWidth}x${draggableWebcam.offsetHeight}`);
-    console.log(`Initial status - videoContainer: ${videoContainer.offsetWidth}x${videoContainer.offsetHeight}`);
-
-    // Setup dragging functionality
-    draggableWebcam.addEventListener('mousedown', (e) => {
-        isDragging = true;
-        offsetX = e.clientX - draggableWebcam.getBoundingClientRect().left;
-        offsetY = e.clientY - draggableWebcam.getBoundingClientRect().top;
+// Video options
+videoOptions.forEach(option => {
+    option.addEventListener('click', () => {
+        videoOptions.forEach(o => o.classList.remove('selected'));
+        option.classList.add('selected');
     });
+});
 
-    // Declare these variables at the top-level
-    window.webcamX = 0;
-    window.webcamY = 0;
+// Start recording 
+startBtn.addEventListener('click', () => {
+    optionsOverlay.style.display = 'flex';
+});
 
-    document.addEventListener('mousemove', (e) => {
-        if (!isDragging) return;
+// Confirm options
+confirmBtn.addEventListener('click', async () => {
 
-        let leftPosition = e.clientX - offsetX;
-        let topPosition = e.clientY - offsetY;
+    // Get selected video option
+    const selectedOption = document.querySelector('.option.selected');
+    console.log(selectedOption);
 
-        const maxLeftPosition = videoContainer.offsetWidth - draggableWebcam.offsetWidth;
-        const maxTopPosition = videoContainer.offsetHeight - draggableWebcam.offsetHeight;
+    if (!selectedOption) {
+        console.log('No video option selected');
+        return;
+    }
 
-        // Log the calculated maximum positions
-        console.log(`Calculated Max Left: ${maxLeftPosition}`);
-        console.log(`Calculated Max Top: ${maxTopPosition}`);
+    const videoOption = selectedOption.dataset.video;
+    console.log(videoOption);
 
-        // Restrict movement within the video-container
-        if (leftPosition < 0) leftPosition = 0;
-        if (leftPosition > maxLeftPosition) leftPosition = maxLeftPosition;
-        if (topPosition < 0) topPosition = 0;
-        if (topPosition > maxTopPosition) topPosition = maxTopPosition;
+    try {
+        await controller.startRecording(videoOption);
+        isRecording = true;
 
-        draggableWebcam.style.left = leftPosition + 'px';
-        draggableWebcam.style.top = topPosition + 'px';
+    } catch (error) {
+        console.error(error);
+    }
 
-        // Update webcam position on canvas
-        window.webcamX = leftPosition;
-        window.webcamY = topPosition;
-    });
+    optionsOverlay.style.display = 'none';
+});
 
-    document.addEventListener('mouseup', () => {
-        isDragging = false;
-    });
+// Stop recording
+stopBtn.addEventListener('click', async () => {
 
-    draggableWebcam.addEventListener('dragstart', (e) => {
-        e.preventDefault();
-    });
+    if (!isRecording) {
+        return;
+    }
 
-    // Start recording handler
-    document.getElementById('start').addEventListener('click', async () => {
-        try {
-            console.log('Starting recording...');
-            await controller.startRecording();
-            webcamPreview.srcObject = controller.webcamStream;  // Set the webcam video
-            console.log('Recording started');
-        } catch (error) {
-            console.error('Error starting recording:', error);
-        }
-    });
+    try {
 
-    // Stop recording handler
-    document.getElementById('stop').addEventListener('click', async () => {
-        try {
-            console.log('Stopping recording...');
-            const blob = await controller.stopRecording();
-            console.log('Blob from recording:', blob);
-            if (!blob) {
-                console.error('Invalid blob, saving recording failed');
-                return;
-            }
+        const blob = await controller.stopRecording();
+        console.log('Stopped recording, blob: ', blob);
+
+        if (blob) {
             saveAs(blob, 'recording.webm');
-            console.log('Recording stopped and file saved');
-        } catch (error) {
-            console.error('Error stopping recording:', error);
+        } else {
+            console.log('Empty blob');
         }
-    });
+
+        isRecording = false;
+
+    } catch (error) {
+        console.error(error);
+    }
+
 });
