@@ -1,0 +1,86 @@
+/* d */
+
+body {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    min-height: 100vh;
+    font-family: 'Arial', sans-serif;
+}
+
+.navbar {
+    width: 100%;
+    height: 60px;
+    /* Height of the navbar */
+    background-color: #333;
+    color: white;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    
+}
+
+.sidebar {
+    background-color: #f4f4f4;
+    padding: 20px;
+    position: fixed;
+    left: 0;
+    top: 60px;
+    /* Start the sidebar after the navbar */
+    bottom: 0;
+    width: 200px;
+    /* Width of the sidebar */
+ 
+}
+
+.sidebar-item {
+    display: block;
+    background: none;
+    border: none;
+    text-align: left;
+    padding: 10px;
+    width: 100%;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.sidebar-item:hover,
+.sidebar-item.active {
+    background-color: #ddd;
+}
+
+.container {
+    display: flex;
+    height: calc(100vh - 50px);
+    /* Assuming navbar height is 50px */
+}
+
+
+
+.main-content {
+    margin-left: 200px;
+    /* Should be the same as the sidebar width */
+    padding: 20px;
+    padding-top: 60px;
+    /* Same as the navbar height to compensate for the fixed navbar */
+    width: calc(100% - 200px);
+    box-sizing: border-box;
+   
+}
+
+#new-recording {
+    padding: 10px 15px;
+    background-color: #5cb85c;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+#new-recording:hover {
+    background-color: #4cae4c;
+}

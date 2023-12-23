@@ -1,83 +1,110 @@
 // public/main.js
 
-// Import modules 
 import RecorderController from './recorderController.js';
 import { saveAs } from './fileSaver.js';
 
-// DOM elements  
 const startBtn = document.getElementById('start');
 const stopBtn = document.getElementById('stop');
 const optionsOverlay = document.getElementById('optionsOverlay');
 const confirmBtn = document.getElementById('confirmOptions');
-const videoOptions = document.querySelectorAll('.option');
+const allOptions = document.querySelectorAll('.option');
+const draggableWebcam = document.getElementById('draggable-webcam');
 
-// State
 let isRecording = false;
-
-// Initialize 
+let selectedAudioOption = null;
+let selectedVideoOption = null;
 const controller = new RecorderController();
 
-// Video options
-videoOptions.forEach(option => {
+allOptions.forEach(option => {
     option.addEventListener('click', () => {
-        videoOptions.forEach(o => o.classList.remove('selected'));
+        if (option.dataset.audio) {
+            if (selectedAudioOption) {
+                selectedAudioOption.classList.remove('selected');
+            }
+            selectedAudioOption = option;
+        } else if (option.dataset.video) {
+            if (selectedVideoOption) {
+                selectedVideoOption.classList.remove('selected');
+            }
+            selectedVideoOption = option;
+        }
         option.classList.add('selected');
     });
 });
 
-// Start recording 
 startBtn.addEventListener('click', () => {
     optionsOverlay.style.display = 'flex';
 });
 
-// Confirm options
 confirmBtn.addEventListener('click', async () => {
-
-    // Get selected video option
-    const selectedOption = document.querySelector('.option.selected');
-    console.log(selectedOption);
-
-    if (!selectedOption) {
-        console.log('No video option selected');
+    if (!selectedAudioOption || !selectedVideoOption) {
+        console.error('Please select both an audio and a video option');
         return;
     }
 
-    const videoOption = selectedOption.dataset.video;
-    console.log(videoOption);
+    const audioOption = selectedAudioOption.dataset.audio;
+    const videoOption = selectedVideoOption.dataset.video;
 
     try {
-        await controller.startRecording(videoOption);
+        // Pass the selected options to the startRecording method
+        await controller.startRecording({ audio: audioOption, video: videoOption });
         isRecording = true;
 
+        // Update the preview source and play it
+        const previewElement = document.getElementById('preview');
+        if (controller.canvas) {
+            previewElement.srcObject = controller.canvas.captureStream(30);
+            previewElement.play();
+        } else {
+            console.error('No canvas found for preview');
+        }
     } catch (error) {
-        console.error(error);
+        console.error('Error during recording setup:', error);
     }
 
     optionsOverlay.style.display = 'none';
 });
 
-// Stop recording
-stopBtn.addEventListener('click', async () => {
 
+stopBtn.addEventListener('click', async () => {
     if (!isRecording) {
+        console.error('No recording in progress');
         return;
     }
 
     try {
-
         const blob = await controller.stopRecording();
-        console.log('Stopped recording, blob: ', blob);
-
-        if (blob) {
-            saveAs(blob, 'recording.webm');
-        } else {
-            console.log('Empty blob');
-        }
-
+        saveAs(blob, 'recording.webm'); // Save the recording here
         isRecording = false;
-
     } catch (error) {
-        console.error(error);
+        console.error('Error during recording stop:', error);
     }
+});
 
+
+// Draggable webcam logic
+let isDragging = false;
+let offsetX, offsetY;
+
+draggableWebcam.addEventListener('mousedown', (e) => {
+    isDragging = true;
+    offsetX = e.clientX - draggableWebcam.getBoundingClientRect().left;
+    offsetY = e.clientY - draggableWebcam.getBoundingClientRect().top;
+});
+
+document.addEventListener('mousemove', (e) => {
+    if (!isDragging) return;
+
+    let left = e.clientX - offsetX;
+    let top = e.clientY - offsetY;
+
+    draggableWebcam.style.left = `${left}px`;
+    draggableWebcam.style.top = `${top}px`;
+
+    window.webcamX = left;
+    window.webcamY = top;
+});
+
+document.addEventListener('mouseup', () => {
+    isDragging = false;
 });

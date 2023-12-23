@@ -1,72 +1,149 @@
 
+
 <!DOCTYPE html>
 <html>
 
 <head>
     <title>SoLoScreenRecord</title>
     <link rel="manifest" href="/manifest.webmanifest">
+    <link rel="stylesheet" type="text/css" href="navbar.css">
+    <link rel="stylesheet" type="text/css" href="dashboard.css">
     <link rel="stylesheet" type="text/css" href="styles.css">
-    
+    <link rel="stylesheet" type="text/css" href="splashScreen.css">
+    <link rel="stylesheet" type="text/css" href="login.css">
 </head>
 
 <body>
-    <!-- Video Container -->
-    <div id="preview-container">
-        <!-- Video Previews -->
-        <video id="preview" autoplay muted></video>
-        <video id="combined-preview" autoplay muted playsinline></video>
-        <!-- Draggable Container for Webcam -->
-        <div id="draggable-webcam">
-            <div id="webcam-container"> <!-- New container -->
-                <video id="webcam-preview" autoplay></video>
-            </div>
-        </div>
-    </div>
-
     
-    <!-- Options Overlay -->
-    <div id="optionsOverlay">
-        <!-- Video Options Container -->
-        <div class="options-container">
-            <p class="option-title">Video Options</p>
-            <div class="options-buttons">
-                <button class="option" data-video="only-screen">Only Screen</button>
-                <button class="option" data-video="screen-camera">Screen + Camera</button>
-                <button class="option" data-video="only-camera">Only Camera</button>
-            </div>
+    <div id="navbar-placeholder"></div>
+
+
+    <!-- Splash Screen Container -->
+    <div id="splash-container">
+        <h1>Welcome to SoLoScreenRecord</h1>
+        <p>Effortlessly record your screen and webcam.</p>
+        <!-- The image can be included here if needed -->
+        <button id="continue-as-guest">Continue as Guest</button>
+        <button id="start-free">Login/Signup</button>
+    </div>
+
+    <!-- Login/Signup Popup -->
+    <div id="loginPopup" class="popup hidden">
+        <!-- Logo placeholder - you can replace this with your actual logo -->
+        <img src="images/icon128.png" alt="Logo" class="logo">
+        <h2>Remember everything important.</h2>
+
+        <!-- Google Sign In Button -->
+        <div id="googleSignIn" class="google-sign-in-button">
+            <img src="images/googleSignin.png" alt="Sign in with Google">
         </div>
-        
-        <!-- Audio Options Container -->
-        <div class="options-container">
-            <p class="option-title">Audio Options</p>
-            <div class="options-buttons">
-                <button class="option" data-audio="none">None</button>
-                <button class="option" data-audio="microphone">Microphone</button>
-                <button class="option" data-audio="system">System</button>
-                <button class="option" data-audio="system-mic">System + Mic</button>
-            </div>
+
+        <button class="auth-button" id="continue-as-guest-popup">Continue as Guest</button>
+
+        <!-- Divider -->
+        <div class="divider">or</div>
+
+        <!-- Email Form -->
+        <div class="input-group">
+            <input type="email" id="loginEmail" placeholder="Email address or username" required>
+            <button class="continue-button" id="emailContinue">Continue</button>
         </div>
-        
-        <!-- Confirm Options Button -->
-        <div id="confirm-container">
-            <button id="confirmOptions">Start Recording</button>
+
+        <!-- Remember Me Checkbox -->
+        <div class="checkbox-group">
+            <input type="checkbox" id="rememberMe" name="remember">
+            <label for="rememberMe">Remember me for 30 days</label>
+        </div>
+
+        <!-- Signup Link -->
+        <div class="signup-link">
+            Don't have an account? <a href="#" id="createAccount">Create account</a>
         </div>
     </div>
 
-    <!-- Control Buttons -->
-    <div id="controls">
-        <button id="start">Start</button>
-        <button id="stop">Stop</button>
+    <!-- Dashboard Container -->
+    <div id="dashboard-container" class="hidden">
+        <div class="dashboard-header">
+            <div class="user-info">
+                <span id="user-name">Username</span>
+            </div>
+            <button id="logout-btn">Logout</button>
+        </div>
+        <div class="dashboard-main">
+            <h2>Record your first video</h2>
+            <p>Record your screen, virtual meetings, interviews, presentations, and beyond.</p>
+            <button id="new-recording">New Recording</button>
+        </div>
     </div>
 
+
+    </div>
+    <!-- Main App Container, initially hidden -->
+    <div id="app-container" style="display: none;">
+        <!-- Rest of the main app HTML content -->
+        <!-- Video Container -->
+        <div id="preview-container">
+            <video id="preview" autoplay muted></video>
+            <video id="combined-preview" autoplay muted playsinline></video>
+            <div id="draggable-webcam">
+                <div id="webcam-container">
+                    <video id="webcam-preview" autoplay></video>
+                </div>
+            </div>
+        </div>
+
+        <!-- Options Overlay -->
+        <div id="optionsOverlay">
+            <!-- Video Options Container -->
+            <div class="options-container">
+                <p class="option-title">Video Options</p>
+                <div class="options-buttons">
+                    <button class="option" data-video="only-screen">Only Screen</button>
+                    <button class="option" data-video="screen-camera">Screen + Camera</button>
+                    <button class="option" data-video="only-camera">Only Camera</button>
+                </div>
+            </div>
+
+            <!-- Audio Options Container -->
+            <div class="options-container">
+                <p class="option-title">Audio Options</p>
+                <div class="options-buttons">
+                    <button class="option" data-audio="none">None</button>
+                    <button class="option" data-audio="microphone">Microphone</button>
+                    <button class="option" data-audio="system">System</button>
+                    <button class="option" data-audio="system-mic">System + Mic</button>
+                </div>
+            </div>
+
+            <!-- Confirm Options Button -->
+            <div id="confirm-container">
+                <button id="confirmOptions">Start Recording</button>
+            </div>
+        </div>
+
+        <!-- Control Buttons -->
+        <div id="controls">
+            <button id="start">Start</button>
+            <button id="stop">Stop</button>
+        </div>
+    </div>
+    
+    <!-- Include Firebase SDKs -->
+    <script type="module" src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
+    <script type="module" src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js"></script>
+    
+    <!-- Include your Firebase initialization and utility functions -->
+    <script type="module" src="firebase.js"></script>
+    
     <!-- Scripts -->
-    
+    <script type="module" src="login.js"></script>
+    <script type="module" src="navbar.js"></script>
+    <script type="module" src="dashboard.js"></script>
     <script type="module" src="dragVideo.js"></script>
     <script type="module" src="fileSaver.js"></script>
     <script type="module" src="recordercontroller.js"></script>
     <script type="module" src="main.js"></script>
+    <script type="module" src="splashScreen.js"></script>
+    </body>
     
-
-</body>
-
-</html>
+    </html>

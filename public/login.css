@@ -1,0 +1,189 @@
+/*============== Login/Signup Popup ==============*/
+
+/* Overlay covering the entire screen */
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    /* Semi-transparent background */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    /* High z-index to be on top of other elements */
+}
+
+/* Popup container */
+.popup {
+    background-color: white;
+    padding: 40px;
+    border-radius: 8px;
+    width: 25%;
+    min-width: 300px;
+    /* Minimum width */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Hidden class */
+.hidden {
+    display: none;
+}
+
+/* Logo styles */
+.logo {
+    max-width: 100px;
+    /* Set a max width for the logo */
+    margin-bottom: 24px;
+}
+
+/* Heading styles */
+.popup h2 {
+    font-size: 1.25rem;
+    color: #333;
+    margin-bottom: 24px;
+}
+
+.google-sign-in-button {
+    cursor: pointer;
+    /* Makes the image behave like a button */
+    text-align: center;
+    /* Centers the image */
+    margin: 16px 0;
+    /* Adds some margin around the button */
+}
+
+.google-sign-in-button img {
+    width: 100%;
+    /* Makes the image expand to the full width of its container */
+    max-width: 300px;
+    /* Ensures the image does not become too large */
+    display: block;
+    /* Ensures the image does not inline */
+    margin: 0 auto;
+    /* Centers the image within its container */
+}
+
+/* Google Sign In Button */
+.google-button {
+    background-color: #4285F4;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    /* Increased padding for a larger button */
+    margin-bottom: 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    /* Adjusted font size */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 80%;
+    /* Adjust width as needed */
+    max-width: 300px;
+    /* Maximum width of the button */
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .25);
+    /* Shadow for depth */
+}
+
+.google-button img {
+    margin-right: 12px;
+    /* Space between icon and text */
+    width: 20px;
+    /* Adjust icon size as needed */
+    height: auto;
+    /* Maintain aspect ratio */
+}
+
+/* Adjust the button's margin to center it vertically and horizontally */
+.google-button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0;
+}
+
+/* Continue as Guest button styling for better alignment with the design */
+#continue-as-guest-popup {
+    background-color: #f8f9fa;
+    color: #333;
+    border: 1px solid #ddd;
+    padding: 12px 24px;
+    /* Matching padding for consistent height with Google button */
+    width: 80%;
+    /* Match the width of the Google button */
+    max-width: 300px;
+    /* Maximum width matching the Google button */
+    margin: 10px auto;
+    /* Auto margin for horizontal centering */
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#continue-as-guest-popup:hover {
+    background-color: #e2e3e5;
+}
+
+
+
+
+/* Divider */
+.divider {
+    margin: 16px 0;
+    color: #757575;
+}
+
+/* Input group */
+.input-group {
+    width: 100%;
+}
+
+/* Email input */
+.input-group input {
+    width: calc(100% - 20px);
+    /* Full width minus padding */
+    padding: 10px;
+    margin-bottom: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* Continue button */
+.continue-button {
+    background-color: #0a8d48;
+    /* Adjust the color to fit your branding */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 20px;
+    width: 100%;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+/* Remember Me Checkbox */
+.checkbox-group {
+    text-align: left;
+    margin-bottom: 16px;
+}
+
+/* Signup link */
+.signup-link {
+    font-size: 0.9rem;
+    margin-top: 16px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .popup {
+        width: 80%;
+        padding: 20px;
+    }
+}
