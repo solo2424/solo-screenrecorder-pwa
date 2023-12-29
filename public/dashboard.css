@@ -1,0 +1,382 @@
+/* public\dashboard.css */
+
+/* General Styles */
+body {
+    position: relative !important;
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+/* Navbar positioning */
+#navbar-placeholder {
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 100;
+    /* Adjust z-index to ensure it's above other elements */
+    height: 50px;
+}
+
+
+/* ========================= Splash Container ========================= */
+
+
+/* Splash Screen Container */
+#splash-container {
+    display: flex; /* Enable flexbox */
+    flex-direction: column; /* Stack children vertically */
+    justify-content: center; /* Center children vertically */
+    align-items: center; /* Center children horizontally */
+    height: calc(100vh - 50px); /* Full height minus the navbar height */
+    text-align: center; /* Center text for all child elements */
+    padding: 0; /* Remove padding if not needed */
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+    position: fixed; /* Fixed position to stay in place even on scrolling */
+    top: 50px; /* Start below the navbar */
+    left: 0;
+    right: 0;
+    margin: 0; /* Reset margin */
+    background-color: #fff0f0; /* Off white background color */
+    z-index: 10;
+    /* Higher than other elements but lower than modals/dialogs */
+}
+
+/* Adjust the margin for the buttons if needed */
+#continue-as-guest,
+#start-free {
+    margin-top: 100px;
+    top: 50%;
+    /* Add space between the buttons and the text above */
+    margin-bottom: 10px;
+    /* Add space between the buttons if they stack */
+}
+
+/* Ensure the main headings and paragraphs are also centered within the splash container */
+#splash-container h1,
+#splash-container p {
+    margin: 0.5em 0;
+    top: 50%;
+    /* Maintain some space between the elements */
+}
+
+.splash-image {
+    display: none;
+    /* Hide the image as it is not shown in the screenshot */
+}
+
+#continue-as-guest {
+    background-color: #ff4b2b;
+    /* Bright red */
+    color: white;
+    padding: 10px 25px;
+    margin: 20px 0;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    /* Less rounded corners than before */
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 18px;
+    transition: background-color 0.3s;
+}
+
+#continue-as-guest:hover {
+    background-color: #ff7868;
+    /* Lighter red on hover */
+}
+
+#start-free {
+    background-color: #495af8;
+    /* Bright red */
+    color: white;
+    padding: 10px 25px;
+    margin: 20px 0;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    /* Less rounded corners than before */
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 18px;
+    transition: background-color 0.3s;
+}
+
+@media screen and (max-width: 768px) {
+    .navbar a {
+        float: none;
+        display: block;
+        text-align: left;
+    }
+}
+
+
+/* ========================= Sidebar Styles ========================= */
+
+.sidebar {
+    background-color: #2c3e50;
+    color: white;
+    width: 220px;
+    height: calc(100vh - 50px);
+    /* Adjust the height calculation based on the new navbar height */
+    position: fixed;
+    left: 0;
+    top: 50px;
+    /* Adjust the top position to match the navbar height */
+    padding: 20px;
+    box-sizing: border-box;
+    transition: top 0.3s;
+    /* Smooth transition for any top value changes */
+}
+
+.sidebar-item {
+    background: none;
+    border: none;
+    color: white;
+    padding: 10px;
+    margin: 5px 0;
+    text-align: left;
+    width: 100%;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+.sidebar-item:hover,
+.sidebar-item.active {
+    background-color: #34495e;
+}
+
+/* Welcome message should be at the top of the main-content */
+.sidebar h1 {
+    position: relative;
+    top: 0%;
+    /* Align to the top of the main-content */
+    left: 50%;
+    /* Center horizontally */
+    transform: translateX(-50%);
+    margin-top: 10px;
+    /* Remove any default margins that may affect positioning */
+    font-size: 18px;
+}
+
+/* ========================= Main Content Styles ========================= */
+
+.main-content {
+    position: absolute;
+    /* Use absolute positioning */
+    top: 70px;
+    /* Align with the bottom edge of the navbar */
+    left: 0px;
+    /* Align with the right edge of the sidebar */
+    right: 0;
+    /* Extend to the right edge of the window */
+    bottom: 0;
+    /* Extend to the bottom edge of the window */
+    padding: 20px;
+    /* Add some padding for content inside */
+    overflow: auto;
+    /* Add scroll for overflow content */
+    background-color: #fff0f0;
+    /* Match the background color with body */
+    /* Remove the width property as it is no longer needed */
+    width: 100vw;
+    height: calc(100vh - 110px);
+    z-index: 1;
+    overflow: hidden;
+
+}
+
+/* CSS */
+.main-content.full-width {
+    left: 0 !important;
+    width: 100vw !important;
+    /* Add !important to ensure override */
+}
+
+
+/* New Recording Button*/
+#new-recording {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    z-index: 100000;
+    top: 50%;
+    left: 50%;
+}
+
+#stop-recording {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    left: 50%;
+    top: 80%;
+}
+
+
+/* Button Styles */
+button {
+    background-color: #ff0000;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    margin: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    align-items: center;
+}
+
+button:hover {
+    background-color: #ff00009d;
+}
+
+/* Button container layout below the preview */
+#button-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+
+
+/* ========================= Preview Container ========================= */
+
+#previewContainer {
+    position: relative;
+    width: 85%;
+    height: auto;
+    margin: 4px auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+
+}
+
+#preview {
+    width: 100%;
+    border-radius: 10px;
+}
+
+
+/* ======================== Options Overlay ==========================*/
+
+
+#optionsOverlay {
+    display: none;
+    /* Hide initially */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 500px;
+    height: 360px;
+    padding: 15px;
+    border-radius: 15px;
+    background-color: #fdfdfd;
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    /* Ensure it's above other content */
+}
+
+/* Styling for each options container */
+.options-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid #187bcd;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 8px;
+    margin: 20px 0;
+}
+
+/* Styling for the options buttons */
+.options-buttons {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+/* Styling for the individual option */
+.option {
+    background-color: #007BFF;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.option:hover {
+    background-color: #0056b3;
+}
+
+.option.selected {
+    background-color: #cf62c1;
+    color: #FFF;
+}
+
+/* Styling for the options title */
+.option-title {
+    margin-bottom: 10px;
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+/* Styling for the confirm container */
+#confirm-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin: 20px 0;
+}
+
+/* Styling for the confirm options button */
+#confirmOptions {
+    background-color: #007BFF;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#confirmOptions:hover {
+    background-color: #0056b3;
+}
+
+
+/* ======================== Responsive Design ==========================*/
+
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+    #splash-container {
+            top: 50px;
+            /* Adjust if your mobile navbar height is different */
+        }
+
+    .sidebar {
+        width: 100px;
+    }
+
+    .main-content {
+        left: 100px;
+        /* Adjust based on the sidebar width on smaller screens */
+    }
+
+    .sidebar-item {
+        font-size: 14px;
+    }
+
+    #previewContainer {
+        width: 95%;
+    }
+}

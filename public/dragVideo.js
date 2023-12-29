@@ -1,4 +1,4 @@
-// public/dr
+// public\dragVideo.js
 
 let isDragging = false;
 let offsetX, offsetY;

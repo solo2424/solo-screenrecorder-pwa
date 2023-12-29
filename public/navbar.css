@@ -1,0 +1,88 @@
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #333;
+    color: white;
+    padding: 10px 20px;
+    width: 100%;
+    z-index: 10000;
+}
+
+.navbar a {
+    color: white;
+    text-decoration: none;
+    margin-left: 20px;
+}
+
+.navbar-logo {
+    height: 50px;
+    /* Adjust as per your logo's aspect ratio */
+}
+
+.navbar-links {
+    display: flex;
+}
+
+.navbar-links a {
+    color: white;
+    text-decoration: none;
+    padding: 0 15px;
+}
+
+.navbar-user {
+    position: relative;
+    padding-right: 20px;
+}
+
+.navbar-profile {
+    position: relative;
+    margin-left: auto;
+    /* This ensures that the profile info is pushed to the right */
+}
+
+.navbar-profile-image {
+    width: 40px;
+    /* Adjust size as needed */
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    margin-right: 10px;
+    /* Add some space between the image and the logout button */
+    
+}
+
+.navbar-profile-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 20px;
+    background-color: #707070;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    overflow: hidden;
+    z-index: 10000;
+    width: 175px;
+    /* Ensure it's above other content */
+}
+
+
+.navbar-profile-menu-item {
+    color: rgb(0, 0, 0);
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.navbar-profile-menu-item:hover {
+    background-color: #b1adad;
+}
+
+
+
+/* Ensure that the logout button is not cut off */
+.logout-btn {
+    padding: 5px 15px;
+    margin-right: 50px;
+    /* Adjust as necessary to prevent cutting off */
+}

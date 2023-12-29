@@ -1,4 +1,4 @@
-// audioRecorder.js
+// public\audioRecorder.js
 
 export default class AudioRecorder {
     constructor() {

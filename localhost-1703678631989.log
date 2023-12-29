@@ -1,0 +1,9 @@
+dashboard.js:9 Dashboard: Initializing...
+dashboard.js:17 Dashboard: Initializing elements
+dashboard.js:24 Dashboard: Elements initialized
+dashboard.js:28 Dashboard: Setting up event listeners
+dashboard.js:87 Dashboard: Fully initialized
+dashboard.js:30 Dashboard: New Recording button clicked
+service-worker.js:1 Uncaught (in promise) TypeError: Failed to execute 'addAll' on 'Cache': Request failed
+dashboard.js:41 Dashboard: Video option selected screen-camera
+dashboard.js:47 Dashboard: Audio option selected microphone

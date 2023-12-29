@@ -1,83 +1,93 @@
-// public/main.js
+// public\main.js
 
-// Import modules 
+import { auth, onAuthStateChanged } from './firebase.js';
 import RecorderController from './recorderController.js';
-import { saveAs } from './fileSaver.js';
 
-// DOM elements  
-const startBtn = document.getElementById('start');
-const stopBtn = document.getElementById('stop');
+// DOM elements
+const newRecordingBtn = document.getElementById('new-recording');
+const confirmOptionStartBtn = document.getElementById('confirmOptionStart');
+const stopRecordingBtn = document.getElementById('stop-recording');
+const previewEl = document.getElementById('preview');
 const optionsOverlay = document.getElementById('optionsOverlay');
-const confirmBtn = document.getElementById('confirmOptions');
-const videoOptions = document.querySelectorAll('.option');
+const previewContainer = document.getElementById('previewContainer');
+const userNameSpans = document.querySelectorAll('.user-name'); // Use querySelectorAll to update all instances
+const splashContainer = document.getElementById('splash-container');
+const dashboardContainer = document.getElementById('dashboard-container');
+const appContainer = document.getElementById('app-container');
+const loginPopup = document.getElementById('loginPopup');
+const sidebar = document.querySelector('.sidebar');
+const controller = new RecorderController(previewEl);
 
-// State
-let isRecording = false;
+// Listen for auth state changes and update UI
+onAuthStateChanged(auth, (user) => {
+    toggleUIBasedOnAuthState(user);
+});
 
-// Initialize 
-const controller = new RecorderController();
+// Toggle UI elements based on user state
+function toggleUIBasedOnAuthState(user) {
+    if (user) {
+        splashContainer.style.display = 'none';
+        dashboardContainer.style.display = 'block';
+        appContainer.style.display = 'block';
+        loginPopup.classList.add('hidden');
+        sidebar.style.display = 'block';
+        userNameSpans.forEach(span => span.textContent = user.displayName || 'User');
+    } else {
+        splashContainer.style.display = 'flex';
+        dashboardContainer.style.display = 'none';
+        appContainer.style.display = 'none';
+        loginPopup.classList.remove('hidden');
+        sidebar.style.display = 'block';
+        userNameSpans.forEach(span => span.textContent = 'Guest');
+    }
+}
+// Listen for auth state changes
+listenForAuthChanges(toggleUIBasedOnAuthState);
 
-// Video options
-videoOptions.forEach(option => {
-    option.addEventListener('click', () => {
-        videoOptions.forEach(o => o.classList.remove('selected'));
-        option.classList.add('selected');
+// Handle recording option selection
+function handleOptionSelection(buttons, optionType) {
+    buttons.forEach(button => {
+        button.addEventListener('click', () => {
+            buttons.forEach(btn => btn.classList.remove('selected'));
+            button.classList.add('selected');
+            console.log(`${optionType} option selected: ${button.getAttribute('data-' + optionType)}`);
+        });
+    });
+}
+
+// Apply event listeners to option buttons
+handleOptionSelection(videoOptionsButtons, 'video');
+handleOptionSelection(audioOptionsButtons, 'audio');
+
+// Function to get selected recording options
+function getSelectedOptions() {
+    const selectedVideoOption = document.querySelector('.option[data-video].selected')?.getAttribute('data-video');
+    const selectedAudioOption = document.querySelector('.option[data-audio].selected')?.getAttribute('data-audio');
+    return { video: selectedVideoOption, audio: selectedAudioOption };
+}
+
+// Event listeners for recording buttons
+[newRecordingBtn, confirmOptionStartBtn].forEach(button => {
+    button.addEventListener('click', () => {
+        const isStarting = button === confirmOptionStartBtn;
+        optionsOverlay.style.display = isStarting ? 'none' : 'block';
+        previewContainer.style.display = isStarting ? 'block' : 'none';
+        stopRecordingBtn.style.display = isStarting ? 'block' : 'none';
+        newRecordingBtn.style.display = isStarting ? 'none' : 'block';
+
+        if (isStarting) {
+            const selectedOptions = getSelectedOptions();
+            console.log('Starting recording with selected options:', selectedOptions);
+            controller.startRecording(selectedOptions);
+        } else {
+            console.log('New recording setup initiated.');
+        }
     });
 });
 
-// Start recording 
-startBtn.addEventListener('click', () => {
-    optionsOverlay.style.display = 'flex';
-});
-
-// Confirm options
-confirmBtn.addEventListener('click', async () => {
-
-    // Get selected video option
-    const selectedOption = document.querySelector('.option.selected');
-    console.log(selectedOption);
-
-    if (!selectedOption) {
-        console.log('No video option selected');
-        return;
-    }
-
-    const videoOption = selectedOption.dataset.video;
-    console.log(videoOption);
-
-    try {
-        await controller.startRecording(videoOption);
-        isRecording = true;
-
-    } catch (error) {
-        console.error(error);
-    }
-
-    optionsOverlay.style.display = 'none';
-});
-
-// Stop recording
-stopBtn.addEventListener('click', async () => {
-
-    if (!isRecording) {
-        return;
-    }
-
-    try {
-
-        const blob = await controller.stopRecording();
-        console.log('Stopped recording, blob: ', blob);
-
-        if (blob) {
-            saveAs(blob, 'recording.webm');
-        } else {
-            console.log('Empty blob');
-        }
-
-        isRecording = false;
-
-    } catch (error) {
-        console.error(error);
-    }
-
+// Event listener for stop recording button
+stopRecordingBtn.addEventListener('click', () => {
+    console.log('Stop recording button clicked');
+    controller.stopRecording();
+    newRecordingBtn.style.display = 'block'; // Show the new recording button after stopping the recording
 });

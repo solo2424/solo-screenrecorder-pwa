@@ -1,0 +1,73 @@
+dragVideo.js:9 Uncaught TypeError: Cannot read properties of null (reading 'addEventListener')
+    at dragVideo.js:9:17
+(anonymous) @ dragVideo.js:9
+recorderController.js:14 RecorderController initialized
+main.js:47 Uncaught ReferenceError: listenForAuthChanges is not defined
+    at main.js:47:1
+(anonymous) @ main.js:47
+login.js:38 No user is signed in.
+main.js:39 Uncaught (in promise) TypeError: Cannot read properties of null (reading 'style')
+    at toggleUIBasedOnAuthState (main.js:39:28)
+    at main.js:23:5
+    at auth_impl.ts:681:47
+toggleUIBasedOnAuthState @ main.js:39
+(anonymous) @ main.js:23
+(anonymous) @ auth_impl.ts:681
+Promise.then (async)
+registerStateListener @ auth_impl.ts:681
+onAuthStateChanged @ auth_impl.ts:482
+onAuthStateChanged @ index.ts:210
+(anonymous) @ main.js:22
+service-worker.js:1 Uncaught (in promise) TypeError: Failed to execute 'addAll' on 'Cache': Request failed
+splashScreen.js:16 Uncaught TypeError: Cannot read properties of null (reading 'style')
+    at toggleContainers (splashScreen.js:16:28)
+    at HTMLButtonElement.<anonymous> (splashScreen.js:27:13)
+toggleContainers @ splashScreen.js:16
+(anonymous) @ splashScreen.js:27
+login.js:35 User signed in: UserImpl {providerId: 'firebase', proactiveRefresh: ProactiveRefresh, reloadUserInfo: {…}, reloadListener: null, uid: 'qGm3GSoymYbwrlpIzY6tLe11vFm2', …}
+subscribe.ts:250 TypeError: Cannot read properties of null (reading 'style')
+    at toggleUIBasedOnAuthState (main.js:31:28)
+    at Object.next (main.js:23:5)
+    at subscribe.ts:109:27
+    at subscribe.ts:238:34
+(anonymous) @ subscribe.ts:250
+Promise.then (async)
+sendOne @ subscribe.ts:231
+forEachObserver @ subscribe.ts:230
+next @ subscribe.ts:109
+notifyAuthListeners @ auth_impl.ts:651
+(anonymous) @ auth_impl.ts:399
+Promise.then (async)
+queue @ auth_impl.ts:731
+_updateCurrentUser @ auth_impl.ts:384
+await in _updateCurrentUser (async)
+_signInWithCredential @ credential.ts:65
+await in _signInWithCredential (async)
+_signIn @ idp.ts:93
+onAuthEvent @ abstract_popup_redirect_operation.ts:110
+sendToConsumer @ auth_event_manager.ts:105
+(anonymous) @ auth_event_manager.ts:69
+onEvent @ auth_event_manager.ts:67
+(anonymous) @ popup_redirect.ts:142
+Ln @ cb=gapi.loaded_0?le=scs:201
+(anonymous) @ cb=gapi.loaded_0?le=scs:201
+em @ cb=gapi.loaded_0?le=scs:180
+nm @ cb=gapi.loaded_0?le=scs:180
+El @ cb=gapi.loaded_0?le=scs:181
+Ol.rH @ cb=gapi.loaded_0?le=scs:175
+popup.ts:36 Cross-Origin-Opener-Policy policy would block the window.close call.
+close @ popup.ts:36
+cleanUp @ popup.ts:279
+unregisterAndCleanUp @ popup.ts:89
+resolve @ abstract_popup_redirect_operation.ts:136
+onAuthEvent @ abstract_popup_redirect_operation.ts:104
+popup.ts:36 Cross-Origin-Opener-Policy policy would block the window.close call.
+close @ popup.ts:36
+cleanUp @ popup.ts:279
+unregisterAndCleanUp @ popup.ts:89
+resolve @ abstract_popup_redirect_operation.ts:136
+onAuthEvent @ abstract_popup_redirect_operation.ts:104
+login.js:51 Google Sign-In error: ReferenceError: toggleUIBasedOnAuthState is not defined
+    at HTMLDivElement.handleGoogleSignIn (login.js:48:9)
+handleGoogleSignIn @ login.js:51
+login.js:26 User data saved to Firestore: {firstName: 'SoLo', lastName: 'Vision', email: 'solovisionllc@gmail.com', profileImage: 'https://lh3.googleusercontent.com/a/ACg8ocLITtGylpwoQqnoTu3q9y01rSBSTcdtoNqo9tRKHXVtSQ=s96-c'}
