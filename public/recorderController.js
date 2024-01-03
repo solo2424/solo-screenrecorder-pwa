@@ -1,8 +1,5 @@
 // public/recorderController.js
 
-
-import { auth, uploadRecording } from './firebase.js';
-
 export default class RecorderController {
     constructor(previewElement, loadDisplayCallback) {
         this.previewElement = previewElement;
@@ -14,43 +11,89 @@ export default class RecorderController {
         this.audioStream = null;
         this.combinedStream = null;
         this.canvas = null;
-        this.isRecording = false;
-        this.loadDisplayCallback = loadDisplayCallback; // Assign the passed function
-        console.log('RecorderController initialized');
+        this.previewElement = document.querySelector('#preview');
+        this.webcamElement = document.querySelector('#draggable-webcam'); // Assuming you have a draggable element with this id
     }
 
-
-
-
     async startRecording(options) {
-        if (this.isRecording) {
-            console.log('Recording is already in progress.');
-            return;
-        }
-        this.isRecording = true;
-        console.log('Starting recording with options:', options);
-        const videoConstraints = this.getVideoConstraints(options.video);
-        const audioConstraints = this.getAudioConstraints(options.audio);
         try {
-            if (videoConstraints) {
-                this.screenStream = await navigator.mediaDevices.getDisplayMedia({ video: videoConstraints });
+            console.log('Starting recording with options:', options);
+            this.canvas = document.createElement('canvas');
+            this.canvas.width = 1280;
+            this.canvas.height = 720;
+            const ctx = this.canvas.getContext('2d');
+
+            const screenConstraints = { video: { width: 1280, height: 720 } };
+            const webcamConstraints = { video: { width: 320, height: 180 } };
+
+            if (options.video === 'only-screen' || options.video === 'screen-camera') {
+                this.screenStream = await navigator.mediaDevices.getDisplayMedia(screenConstraints);
             }
-            if (audioConstraints) {
-                this.audioStream = await navigator.mediaDevices.getUserMedia({ audio: audioConstraints });
+            if (options.video === 'screen-camera' || options.video === 'only-camera') {
+                this.webcamStream = await navigator.mediaDevices.getUserMedia(webcamConstraints);
             }
-            this.combinedStream = new MediaStream([
-                ...(this.screenStream ? this.screenStream.getTracks() : []),
-                ...(this.audioStream ? this.audioStream.getTracks() : []),
-            ]);
-            this.mediaRecorder = new MediaRecorder(this.combinedStream);
-            this.mediaRecorder.ondataavailable = (event) => {
-                if (event.data.size > 0) {
-                    this.recordedChunks.push(event.data);
+            if (options.audio === 'microphone') {
+                this.audioStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+            }
+
+            let screenVideo, webcamVideo;
+            if (this.screenStream) {
+                screenVideo = document.createElement('video');
+                screenVideo.srcObject = this.screenStream;
+                await screenVideo.play();
+            }
+            if (this.webcamStream) {
+                webcamVideo = document.createElement('video');
+                webcamVideo.srcObject = this.webcamStream;
+                await webcamVideo.play();
+            }
+
+            const drawVideos = () => {
+                ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+                if (this.screenStream && (options.video !== 'only-camera')) {
+                    ctx.drawImage(screenVideo, 0, 0, this.canvas.width, this.canvas.height);
                 }
+                if (this.webcamStream && (options.video !== 'only-screen')) {
+                    if (options.video === 'only-camera') {
+                        ctx.drawImage(webcamVideo, 0, 0, this.canvas.width, this.canvas.height);
+                    } else {
+                        const x = this.webcamElement.offsetLeft;
+                        const y = this.webcamElement.offsetTop;
+                        const radius = 10; // Adjust the corner radius as needed
+                        ctx.save();
+                        ctx.beginPath();
+                        ctx.moveTo(x + radius, y);
+                        ctx.lineTo(x + webcamVideo.videoWidth - radius, y);
+                        ctx.quadraticCurveTo(x + webcamVideo.videoWidth, y, x + webcamVideo.videoWidth, y + radius);
+                        ctx.lineTo(x + webcamVideo.videoWidth, y + webcamVideo.videoHeight - radius);
+                        ctx.quadraticCurveTo(x + webcamVideo.videoWidth, y + webcamVideo.videoHeight, x + webcamVideo.videoWidth - radius, y + webcamVideo.videoHeight);
+                        ctx.lineTo(x + radius, y + webcamVideo.videoHeight);
+                        ctx.quadraticCurveTo(x, y + webcamVideo.videoHeight, x, y + webcamVideo.videoHeight - radius);
+                        ctx.lineTo(x, y + radius);
+                        ctx.quadraticCurveTo(x, y, x + radius, y);
+                        ctx.closePath();
+                        ctx.clip();
+                        ctx.drawImage(webcamVideo, x, y, webcamVideo.videoWidth, webcamVideo.videoHeight);
+                        ctx.restore();
+                    }
+                }
+                requestAnimationFrame(drawVideos);
             };
-            this.mediaRecorder.onstop = this.onRecordingStop.bind(this);
-            this.mediaRecorder.start(10);
-            this.updatePreview(this.combinedStream);
+            drawVideos();
+
+            const canvasStream = this.canvas.captureStream(30);
+            if (this.audioStream) {
+                const audioTrack = this.audioStream.getAudioTracks()[0];
+                canvasStream.addTrack(audioTrack);
+            }
+
+            const recorderOptions = { mimeType: 'video/webm; codecs=vp9' };
+            this.mediaRecorder = new MediaRecorder(canvasStream, recorderOptions);
+            this.mediaRecorder.ondataavailable = (e) => this.recordedChunks.push(e.data);
+            this.mediaRecorder.onstop = () => console.log('Recording stopped');
+            this.mediaRecorder.start();
+
+            this.previewElement.srcObject = canvasStream;
             console.log('Recording started');
         } catch (error) {
             console.error('Error starting recording:', error);
@@ -60,153 +103,43 @@ export default class RecorderController {
 
 
     async stopRecording() {
-        if (this.mediaRecorder && this.isRecording) {
-            this.mediaRecorder.stop(); // This will trigger the `onstop` event
-            this.isRecording = false;
-            previewContainer.style.display = 'none';
-            console.log('Recording stopped');
-
-            // Stop all media tracks
-            if (this.screenStream) {
-                this.screenStream.getTracks().forEach(track => {
-                    console.log('Stopping screenStream track:', track);
-                    track.stop();
-                });
+        return new Promise((resolve, reject) => {
+            console.log('stopRecording() called');
+            if (!this.mediaRecorder) {
+                console.error('MediaRecorder is not defined');
+                reject('MediaRecorder is not defined');
+                return;
             }
-            if (this.webcamStream) {
-                this.webcamStream.getTracks().forEach(track => {
-                    console.log('Stopping webcamStream track:', track);
-                    track.stop();
-                });
-            }
-            if (this.audioStream) {
-                this.audioStream.getTracks().forEach(track => {
-                    console.log('Stopping audioStream track:', track);
-                    track.stop();
-                });
-            }
-        } else {
-            console.log('No recording in progress to stop.');
-        }
-    }
-
-    onRecordingStop() {
-        this.lastRecordingBlob = new Blob(this.recordedChunks, { type: 'video/webm' });
-        console.log('Recording stopped. Blob created.');
-
-        const currentUser = auth.currentUser;
-        if (currentUser) {
-            this.saveRecordingToFirebase(this.lastRecordingBlob)
-                .then(() => {
-                    console.log('Recording saved and dashboard refreshed');
-                    if (this.loadDisplayCallback) {
-                        this.loadDisplayCallback(currentUser.uid);
-                    }
-                })
-                .catch((error) => {
-                    console.error('Error saving recording:', error);
-                });
-        } else {
-            console.error('Error: No user logged in.');
-        }
-    }
-
-    async saveRecordingToFirebase(blob) {
-        const currentUser = auth.currentUser;
-        if (currentUser) {
-            try {
-                await uploadRecording(currentUser.uid, blob);
-                console.log('Recording uploaded successfully. Refreshing dashboard...');
-                if (this.loadDisplayCallback && typeof this.loadDisplayCallback === 'function') {
-                    await this.loadDisplayCallback(currentUser.uid);
+            console.log('Stopping media recorder...');
+            this.mediaRecorder.stop();
+            console.log('Media recorder stopped');
+            this.mediaRecorder.onstop = () => {
+                console.log('onstop handler triggered');
+                const blob = new Blob(this.recordedChunks, { type: 'video/webm' });
+                if (this.screenStream) {
+                    this.screenStream.getTracks().forEach(track => track.stop());
+                    console.log('Screen stream stopped');
                 }
-            } catch (error) {
-                console.error('Error during recording upload:', error);
-            }
-        } else {
-            console.log('User is not logged in. Cannot upload recording.');
-        }
-    }
-
-    getLastRecordingBlob() {
-        return this.lastRecordingBlob;
+                if (this.webcamStream) {
+                    this.webcamStream.getTracks().forEach(track => track.stop());
+                    console.log('Webcam stream stopped');
+                }
+                console.log('Media streams stopped');
+                resolve(blob);
+            };
+        });
     }
 
 
-    resetRecorder() {
-        // Clear the recorded chunks
-        this.recordedChunks = [];
-        // Stop all media tracks
-        if (this.screenStream) {
-            this.screenStream.getTracks().forEach(track => track.stop());
-        }
-        if (this.webcamStream) {
-            this.webcamStream.getTracks().forEach(track => track.stop());
-        }
-        if (this.audioStream) {
-            this.audioStream.getTracks().forEach(track => track.stop());
-        }
-        // Update the UI if necessary
-        // For example, hide the "Stop Recording" button and show the "Start Recording" button
-        const stopRecordingBtn = document.getElementById('stop-recording');
-        if (stopRecordingBtn) {
-            stopRecordingBtn.style.display = 'none';
-        }
-        const startRecordingBtn = document.getElementById('new-recording');
-        if (startRecordingBtn) {
-            startRecordingBtn.style.display = 'block';
-        }
-    }
+
     async saveRecording(blob) {
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.style.display = 'none';
-        a.href = url;
-        a.download = 'recording.webm';
-        document.body.appendChild(a);
-        a.click();
-        window.URL.revokeObjectURL(url);
-        console.log('Recording saved');
-    }
-
-    updatePreview(stream) {
-        if (this.previewElement) {
-            this.previewElement.srcObject = stream;
-            this.previewElement.play();
-            console.log('Preview updated');
-        } else {
-            console.error('No preview element available for updating preview.');
+        console.log('Saving recording...');
+        try {
+            const fileSaver = await import('./fileSaver.js');
+            fileSaver.saveAs(blob, 'recording.webm');
+            console.log('Recording saved');
+        } catch (error) {
+            console.error('Error saving recording:', error);
         }
-    }
-    
-    getVideoConstraints(videoOption) {
-        switch (videoOption) {
-            case 'only-screen':
-                return { width: 1280, height: 720 };
-            case 'screen-camera':
-                return { width: 1280, height: 720 }; // Adjust as needed for combined stream
-            case 'only-camera':
-                return { width: 640, height: 360 };
-            default:
-                return null;
-        }
-    }
-    getAudioConstraints(audioOption) {
-        switch (audioOption) {
-            case 'microphone':
-                return true;
-            case 'system':
-                return false; // System audio capture is not typically supported by browsers
-            case 'system-mic':
-                return true; // Combine system audio with microphone if possible
-            default:
-                return null;
-        }
-    }
-
-    // Add getLastRecordingBlob method
-    getLastRecordingBlob() {
-        console.log('Retrieving last recording blob:', this.lastRecordingBlob);
-        return this.lastRecordingBlob;
     }
 }

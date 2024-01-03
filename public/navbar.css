@@ -6,7 +6,6 @@
     color: white;
     padding: 10px 20px;
     width: 100%;
-    z-index: 1000;
 }
 
 .navbar a {
@@ -61,8 +60,8 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 4px;
     overflow: hidden;
-    z-index: 1000000;
-    width: 175px;
+    z-index: 1000;
+    width: 150 px;
     /* Ensure it's above other content */
 }
 

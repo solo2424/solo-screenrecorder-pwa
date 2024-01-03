@@ -1,25 +1,23 @@
 <!-- public\navbar.html -->
 
-
 <div class="navbar">
     <img src="images/SSR_Logo.png" alt="SoLoScreenRecord Logo" class="navbar-logo">
     <div class="navbar-links">
-
-        <!-- Add other links as needed -->
+        <a href="#">Home</a>
+        <a href="#">Features</a>
+        <a href="#">Pricing</a>
     </div>
     <div class="navbar-user">
         <img src="images/soloVisionLogo.png" alt="User" class="navbar-profile-image" id="navbarProfileImage">
         <div class="navbar-profile-menu" id="navbarProfileMenu">
-            <a href="#" class="navbar-profile-menu-item"><span id="navbar-user-name">User</span></a>
-            <a href="#" class="navbar-profile-menu-item">Cloud Sync</a>
-            <a href="#" class="navbar-profile-menu-item">Settings</a>
-            <a href="#" class="navbar-profile-menu-item">Library</a>
-            <a href="#" class="navbar-profile-menu-item">Help</a>
+            <div id="profileInfo">
+                <img id="profilePicture" src="" alt="Profile Picture" style="display:none;">
+                <p id="userName" style="display:none;"></p>
+                <p id="userEmail" style="display:none;"></p>
+            </div>
+            <!-- Additional menu items here -->
             <a href="#" class="navbar-profile-menu-item sign-out">Sign out</a>
         </div>
     </div>
-
-    <script type="module" src="navbar.js"></script>
-
 </div>
-
+<script type="module" src="navbar.js"></script>

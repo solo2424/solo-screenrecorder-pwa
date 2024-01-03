@@ -1,0 +1,12 @@
+navbar.js:5 DOM fully loaded and parsed
+navbar.js:17 Navbar loaded successfully
+navbar.js:25 Attaching navbar listeners
+navbar.js:29 Profile image listener attached
+navbar.js:37 Sign out listener attached
+navbar.js:54 Updating user profile information
+navbar.js:74 No user is signed in.
+navbar.js:47 Toggled profile menu display
+service-worker.js:1 Uncaught (in promise) TypeError: Failed to execute 'addAll' on 'Cache': Request failed
+navbar.js:112 Clicked outside profile image, menu closed
+navbar.js:47 Toggled profile menu display
+navbar.js:112 Clicked outside profile image, menu closed

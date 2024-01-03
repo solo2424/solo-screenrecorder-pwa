@@ -1,13 +1,13 @@
-// public\login.js
-
-
+// public/login.js
 import {
     auth,
     db,
     doc,
     setDoc,
+    getDoc,
     signInWithPopup,
-    GoogleAuthProvider
+    GoogleAuthProvider,
+    onAuthStateChanged
 } from './firebase.js';
 
 // Function to save user data to Firestore
@@ -27,34 +27,29 @@ async function saveUserData(user) {
     }
 }
 
+// Listen for auth state changes
+onAuthStateChanged(auth, async (user) => {
+    if (user) {
+        console.log('User signed in:', user);
+        await saveUserData(user);
+        window.location.href = '/dashboard.html';
+    } else {
+        console.log('No user is signed in.');
+    }
+});
+
 // Function to handle Google sign-in
 async function handleGoogleSignIn() {
     const provider = new GoogleAuthProvider();
     try {
-        const result = await signInWithPopup(auth, provider);
-        await saveUserData(result.user); // Save user data to Firestore
-        hideLoginPopup(); // Hide the login popup
+        await signInWithPopup(auth, provider);
         console.log('Google Sign-In successful.');
     } catch (error) {
         console.error('Google Sign-In error:', error);
     }
 }
 
-// Function to hide the login popup
-function hideLoginPopup() {
-    const loginPopup = document.getElementById('loginPopup');
-    if (loginPopup) {
-        loginPopup.classList.add('hidden');
-    }
-}
-
 document.addEventListener('DOMContentLoaded', () => {
     const googleSignInButton = document.getElementById('googleSignIn');
     googleSignInButton?.addEventListener('click', handleGoogleSignIn);
-
-    // Hide loginPopup when any button inside it is clicked
-    const loginPopupButtons = document.querySelectorAll('#loginPopup button');
-    loginPopupButtons.forEach(button => {
-        button.addEventListener('click', hideLoginPopup);
-    });
 });
