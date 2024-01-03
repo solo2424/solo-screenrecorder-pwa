@@ -65,6 +65,26 @@ export default class RecorderController {
             this.isRecording = false;
             previewContainer.style.display = 'none';
             console.log('Recording stopped');
+
+            // Stop all media tracks
+            if (this.screenStream) {
+                this.screenStream.getTracks().forEach(track => {
+                    console.log('Stopping screenStream track:', track);
+                    track.stop();
+                });
+            }
+            if (this.webcamStream) {
+                this.webcamStream.getTracks().forEach(track => {
+                    console.log('Stopping webcamStream track:', track);
+                    track.stop();
+                });
+            }
+            if (this.audioStream) {
+                this.audioStream.getTracks().forEach(track => {
+                    console.log('Stopping audioStream track:', track);
+                    track.stop();
+                });
+            }
         } else {
             console.log('No recording in progress to stop.');
         }

@@ -1,7 +1,0 @@
-dashboard.js:100 Dashboard: DOMContentLoaded, initializing Dashboard
-dashboard.js:5 Dashboard: Initializing...
-dashboard.js:14 Dashboard: Initializing elements
-dashboard.js:21 Dashboard: Elements initialized {optionsOverlay: div#optionsOverlay, confirmOptionsBtn: button#confirmOptions, newRecordingBtn: button#new-recording, previewContainer: div#previewContainer, audioOptions: NodeList(0), …}
-dashboard.js:32 Dashboard: Setting up event listeners
-service-worker.js:1 Uncaught (in promise) TypeError: Failed to execute 'addAll' on 'Cache': Request failed
-dashboard.js:34 Dashboard: New Recording button clicked

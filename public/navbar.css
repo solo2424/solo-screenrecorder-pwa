@@ -61,7 +61,7 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 4px;
     overflow: hidden;
-    z-index: 10000;
+    z-index: 1000000;
     width: 175px;
     /* Ensure it's above other content */
 }

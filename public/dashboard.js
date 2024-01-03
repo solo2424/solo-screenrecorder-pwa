@@ -1,4 +1,7 @@
 // dashboard.js
+
+import { deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
 // Import the necessary functions from firebase.js
 import {
     fetchUserRecordings,
@@ -9,16 +12,17 @@ import {
     onSnapshot
 } from './firebase.js';
 
+import { fetchAndDisplayRecordings } from "./firebase.js";
+
 // DOM elements
 const dashboardContainer = document.getElementById('dashboardContainer');
 const recordingContainer = document.getElementById('recordingContainer');
 const playerContainer = document.getElementById('playerContainer');
-const detailsContainer = document.getElementById('detailsContainer');
-const toggleViewButton = document.getElementById('viewToggle');
-let currentView = 'thumbnail'; // Set thumbnail view as default
-let recordingsGlobal = []; // To hold the recordings globally
+const viewToggleButton = document.getElementById('view-toggle');
 
-// Utility function to format bytes into a readable format
+let currentView = 'thumbnail';
+let allRecordings = [];
+
 function formatBytes(bytes, decimals = 2) {
     if (bytes === 0) return '0 Bytes';
     const k = 1024;
@@ -28,122 +32,72 @@ function formatBytes(bytes, decimals = 2) {
     return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
 }
 
-// Utility function to format dates
 function formatDate(timestamp) {
     const date = new Date(timestamp);
-    return date.toLocaleString(); // Adjust formatting as needed
+    return date.toLocaleString();
 }
 
-// Function to initialize the dashboard
+function toggleView() {
+    console.log('Toggling view from', currentView);
+    currentView = currentView === 'list' ? 'thumbnail' : 'list';
+    console.log('New view is', currentView);
+    updateView(allRecordings);
+}
+
 function initializeDashboard(userId) {
-    console.log('Initializing dashboard for user:', userId);
-    const recordingsRef = collection(db, `users/${userId}/recordings`);
-    onSnapshot(recordingsRef, (querySnapshot) => {
-        recordingsGlobal = [];
-        querySnapshot.forEach((doc) => {
-            recordingsGlobal.push({ id: doc.id, ...doc.data() });
-        });
-        console.log('Recordings snapshot fetched:', recordingsGlobal);
-        updateView(); // Call a function to update the UI based on the current view
-    });
+    console.log("Initializing dashboard for user:", userId);
+    setupRealtimeRecordingsListener(userId);
+    fetchAndDisplayRecordings(userId)
 }
 
-// Function to update the dashboard view
-function updateView() {
-    console.log(`Updating view to: ${currentView}`);
+
+
+// Realtime listener setup would look like this:
+function setupRealtimeRecordingsListener(userId) {
+    const recordingsCol = collection(db, `users/${userId}/recordings`);
+    onSnapshot(recordingsCol, (snapshot) => {
+        const recordings = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        renderRecordings(recordings);
+    }, (error) => {
+        console.error("Error setting up real-time listener:", error);
+    });
+}  
+
+
+
+function renderRecordings(recordings) {
+    console.log("Rendering recordings:", recordings);
+    dashboardContainer.innerHTML = '';
     if (currentView === 'thumbnail') {
-        console.log('Creating Thumbnail View');
-        createThumbnailView();
+        createThumbnailView(recordings);
     } else {
-        console.log('Creating List View');
-        createListView();
+        createListView(recordings);
     }
 }
 
-// Function to create a list view
-function createListView() {
-    console.log('Generating List View');
-    dashboardContainer.innerHTML = ''; // Clear the container
-    const table = document.createElement('table');
-    table.className = 'recordings-table';
-    const thead = document.createElement('thead');
-    const tbody = document.createElement('tbody');
-    table.appendChild(thead);
-    table.appendChild(tbody);
-
-    // Define table headers
-    const headers = ['Thumbnail', 'Name', 'Size', 'Date', 'Action'];
-    const headerRow = document.createElement('tr');
-    headers.forEach(headerText => {
-        const header = document.createElement('th');
-        header.textContent = headerText;
-        headerRow.appendChild(header);
-    });
-    thead.appendChild(headerRow);
-
-    // Populate the table body with recordings data
-    recordingsGlobal.forEach(recording => {
-        const row = document.createElement('tr');
-
-        // Add a cell with the thumbnail
-        const thumbnailCell = document.createElement('td');
-        const thumbnailImg = document.createElement('img');
-        thumbnailImg.src = recording.thumbnailUrl || 'images/default-thumbnail.png'; // Fallback to a default image if necessary
-        thumbnailImg.className = 'table-thumbnail';
-        thumbnailCell.appendChild(thumbnailImg);
-        row.appendChild(thumbnailCell);
-
-        // Other cells for data
-        const nameCell = document.createElement('td');
-        nameCell.textContent = recording.name || 'Unnamed';
-        row.appendChild(nameCell);
-
-        const sizeCell = document.createElement('td');
-        sizeCell.textContent = formatBytes(recording.size);
-        row.appendChild(sizeCell);
-
-        const dateCell = document.createElement('td');
-        dateCell.textContent = formatDate(recording.createdAt);
-        row.appendChild(dateCell);
-
-        const actionCell = document.createElement('td');
-        const viewButton = document.createElement('button');
-        viewButton.textContent = 'View';
-        viewButton.onclick = () => displayRecordingDetails(recording);
-        actionCell.appendChild(viewButton);
-        row.appendChild(actionCell);
-
-        tbody.appendChild(row);
-
-        // Set data-id attribute on the view button
-        viewButton.setAttribute('data-id', recording.id);
-    });
-
-    // Set event listeners for the 'View' buttons in the list view
-    const viewButtons = dashboardContainer.querySelectorAll('.view-button');
-    viewButtons.forEach(button => {
-        button.addEventListener('click', function () {
-            const recordingId = this.getAttribute('data-id');
-            const recording = recordingsGlobal.find(r => r.id === recordingId);
-            displayRecordingDetails(recording);
-        });
-    });
 
 
-    // Clear existing content and append the table to the dashboard container
+
+function updateView() {
     dashboardContainer.innerHTML = '';
-    dashboardContainer.appendChild(table);
-    
+    if (currentView === 'thumbnail') {
+        createThumbnailView(allRecordings);
+    } else {
+        createListView(allRecordings);
+    }
 }
 
-// Function to create a thumbnail view
-function createThumbnailView() {
-    console.log('Generating Thumbnail View');
-    dashboardContainer.innerHTML = ''; // Clear the container
+function setDefaultViewToThumbnails() {
+    if (currentView !== 'thumbnail') {
+        console.log('Setting default view to thumbnails');
+        toggleView();
+    }
+}
+
+function createThumbnailView(recordings) {
     const gridContainer = document.createElement('div');
     gridContainer.className = 'grid-container';
-
-    recordingsGlobal.forEach(recording => {
+    recordings.forEach(recording => {
         const thumbnail = document.createElement('div');
         thumbnail.className = 'recording-thumbnail';
         thumbnail.innerHTML = `
@@ -153,64 +107,29 @@ function createThumbnailView() {
                 <div class="recording-date">${formatDate(recording.createdAt)}</div>
             </div>
         `;
-
-        // Find the image within the thumbnail div and set the data-id attribute
-        const thumbnailImg = thumbnail.querySelector('.recording-thumbnail-img');
-        thumbnailImg.setAttribute('data-id', recording.id);
-
+        thumbnail.addEventListener('click', () => displayRecordingDetails(recording));
         gridContainer.appendChild(thumbnail);
     });
-
     dashboardContainer.appendChild(gridContainer);
+}
 
-
-    // Set event listeners for thumbnails to show recording details
-    const thumbnails = dashboardContainer.querySelectorAll('.recording-thumbnail-img');
-    thumbnails.forEach(thumbnail => {
-        thumbnail.addEventListener('click', function () {
-            const recordingId = this.getAttribute('data-id');
-            const recording = recordingsGlobal.find(r => r.id === recordingId);
-            displayRecordingDetails(recording);
-        });
+function createListView(recordings) {
+    const listContainer = document.createElement('div');
+    listContainer.className = 'list-container';
+    recordings.forEach(recording => {
+        const listItem = document.createElement('div');
+        listItem.className = 'recording-list-item';
+        listItem.innerHTML = `
+            <div class="recording-info">
+                <div class="recording-title">${recording.name}</div>
+                <div class="recording-date">${formatDate(recording.createdAt)}</div>
+                <div class="recording-size">${formatBytes(recording.size)}</div>
+            </div>
+        `;
+        listItem.addEventListener('click', () => displayRecordingDetails(recording));
+        listContainer.appendChild(listItem);
     });
-
-}
-
-// Event listener for the toggle view button
-toggleViewButton.addEventListener('click', () => {
-    currentView = currentView === 'list' ? 'thumbnail' : 'list';
-    updateView();
-    console.log(`View toggled to: ${currentView}`);
-});
-
-// Function to load and display recordings
-async function loadAndDisplayRecordings(userId) {
-    try {
-        console.log(`Loading recordings for user: ${userId}`);
-        const recordings = await fetchUserRecordings(userId);
-        console.log('Recordings fetched successfully:', recordings);
-        recordingsGlobal = recordings; // Update the global recordings array
-        updateView(); // Update the view with the new recordings
-    } catch (error) {
-        console.error('Failed to load recordings:', error);
-        dashboardContainer.innerHTML = '<p>Error loading recordings. Please try again later.</p>';
-    }
-}
-
-// Function to toggle between thumbnail and list view
-function toggleView() {
-    currentView = currentView === 'thumbnail' ? 'list' : 'thumbnail';
-    console.log('Toggled view to:', currentView);
-    updateView();
-}
-
-// Function to set the default view to thumbnails
-function setDefaultViewToThumbnails() {
-    if (currentView !== 'thumbnail') {
-        currentView = 'thumbnail';
-        console.log('Default view set to thumbnails');
-        updateView();
-    }
+    dashboardContainer.appendChild(listContainer);
 }
 
 function displayRecordingDetails(recording) {
@@ -218,24 +137,93 @@ function displayRecordingDetails(recording) {
     recordingContainer.style.display = 'block';
     dashboardContainer.style.display = 'none';
 
-    // Populate playerContainer with video and details
     playerContainer.innerHTML = `
         <video controls width="100%" height="70%" src="${recording.url}" style="border-radius: 10px 10px 0 0;"></video>
-        <div id="detailsContainer" style="position: absolute; bottom: 0; width: 100%; height: 30%; background-color: rgb(255, 255, 255); border-radius: 0 0 10px 10px; padding: 10px; box-sizing: border-box; overflow: auto;">
+        <div id="detailsContainer">
             <h3>${recording.name}</h3>
             <p>Date: ${formatDate(recording.createdAt)}</p>
             <p>Size: ${formatBytes(recording.size)}</p>
+            <button id="deleteRecordingButton" class="delete-button">Delete</button>
+            <a href="${recording.url}" download="${recording.name}" id="downloadRecordingButton" class="download-button">Download</a>
         </div>
     `;
+
+    setTimeout(() => {
+        const deleteButton = document.getElementById('deleteRecordingButton');
+        const downloadButton = document.getElementById('downloadRecordingButton');
+        if (deleteButton && downloadButton) {
+            deleteButton.onclick = async function() {
+                // Prompt the user for confirmation
+                const confirmation = confirm("Are you sure you want to delete this recording?");
+                if (confirmation) {
+                    // If the user confirms, proceed with the deletion
+                    try {
+                        await deleteRecording(recording.id);
+                        console.log("Recording deleted successfully");
+
+                        // Hide the recordingContainer and show the dashboardContainer
+                        recordingContainer.style.display = 'none';
+                        dashboardContainer.style.display = 'block';
+                    } catch (error) {
+                        console.error("Error deleting recording:", error);
+                    }
+                }
+            };
+            downloadButton.href = recording.url;
+            downloadButton.download = recording.name;
+        } else {
+            console.error("Buttons not found in DOM.");
+        }
+    }, 0);
 }
 
-// Initialize dashboard
+
+// Adjust the deleteRecording function to use the current user
+async function deleteRecording(recordingId) {
+    const user = auth.currentUser;
+    if (!user) {
+        console.error('No authenticated user.');
+        return;
+    }
+    console.log("Attempting to delete recording:", recordingId);
+
+    const recordingRef = doc(db, `users/${user.uid}/recordings`, recordingId);
+    try {
+        await deleteDoc(recordingRef);
+        console.log('Recording deleted:', recordingId);
+        fetchAndDisplayRecordings(user.uid);
+    } catch (error) {
+        console.error('Error deleting recording:', error);
+    }
+
+    try {
+        console.log('Recording deleted, refreshing dashboard:', recordingId);
+        await fetchAndDisplayRecordings(user.uid);
+    } catch (error) {
+        console.error('Error fetching recordings after deletion:', error);
+    }
+
+}
+
+
+
+
+
+async function loadAndDisplayRecordings(userId) {
+    try {
+        const recordings = await fetchUserRecordings(userId);
+        allRecordings = recordings;
+        updateView();
+    } catch (error) {
+        console.error('Failed to load recordings:', error);
+        dashboardContainer.innerHTML = '<p>Error loading recordings. Please try again later.</p>';
+    }
+}
+
 onAuthStateChanged(auth, user => {
     if (user) {
-        console.log('User is signed in:', user.uid);
         initializeDashboard(user.uid);
         loadAndDisplayRecordings(user.uid);
-        // Ensure the dashboardContainer is displayed and recordingContainer is hidden by default
         dashboardContainer.style.display = 'block';
         recordingContainer.style.display = 'none';
     } else {
@@ -243,5 +231,32 @@ onAuthStateChanged(auth, user => {
     }
 });
 
-// Exports
-export { loadAndDisplayRecordings, toggleView, setDefaultViewToThumbnails };
+// Add an event listener to hide recordingContainer when clicking outside of it
+document.addEventListener('click', function (event) {
+    const clickedElement = event.target;
+    const isThumbnailClick = clickedElement.closest('.recording-thumbnail');
+    const isNavbarUserClick = clickedElement.closest('.navbar-user'); // Use the class for the user section of the navbar
+
+    // Check if the click is outside of the recordingContainer, not on a thumbnail, and not on the navbar user section
+    if (!isThumbnailClick && !recordingContainer.contains(clickedElement) && !isNavbarUserClick && recordingContainer.style.display === 'block') {
+        recordingContainer.style.display = 'none';
+        dashboardContainer.style.display = 'block';
+    }
+});
+
+// When the dashboard is shown, ensure the latest recordings are fetched
+document.addEventListener('visibilitychange', async () => {
+    if (document.visibilityState === 'visible') {
+        console.log('Page is now visible, checking for user and fetching recordings.');
+        const user = auth.currentUser;
+        if (user) {
+            await fetchAndDisplayRecordings(user.uid);
+        }
+    }
+});
+
+
+// Currently works to toggle - (Sidebar Button) Add the event listener for the view toggle button
+viewToggleButton.addEventListener('click', toggleView);
+
+export { loadAndDisplayRecordings, setDefaultViewToThumbnails, deleteRecording, fetchAndDisplayRecordings };

@@ -1,0 +1,19 @@
+content.js:248 service proxy created BotService ps
+content.js:248 service proxy created UserService ps
+content.js:248 service proxy created ConfigService ps
+content.js:248 service proxy created RequestService ps
+content.js:248 service proxy created MonicaService ps
+content.js:248 service proxy created AgentService ps
+content.js:248 service proxy created ArtistService ps
+content.js:248 service proxy created MemoV2Service ps
+content.js:248 service proxy created ExtensionService ps
+content.js:248 service proxy created NotificationService ps
+content.js:248 service proxy created MonicaTranslateService ps
+content.js:248 service proxy created TranslateService ps
+content.js:248 service proxy created WritingService ps
+content.js:248 service proxy created AgentService ps
+recorderController.js:19 RecorderController initialized
+dashboard.js:47 Initializing dashboard for user: 02OMZIvG92bFCrLUBtU4qyjr5yw2
+dashboard.js:52 Fetching recordings for user: 02OMZIvG92bFCrLUBtU4qyjr5yw2
+dashboard.js:55 Fetched recordings: Array(15)
+dashboard.js:65 Rendering recordings: Array(15)

@@ -195,6 +195,7 @@ body {
     position: relative; /* Ensure positioning is relative for child elements */
     padding: 20px; /* Add padding for inner content */
     box-sizing: border-box; /* Include padding in width and height */
+    z-index: 5;
 }
 
 /* CSS */
@@ -304,12 +305,13 @@ button:hover {
     /* Padding around the content */
     background-color: #ffffff;
     /* White background */
-    z-index: 1000;
+    z-index: 10;
     /* Below recordingContainer */
     overflow: auto;
     /* Scroll if content overflows */
     box-sizing: border-box;
     /* Include padding in width and height */
+    border-radius: 10px;
 
 }
 
@@ -342,6 +344,78 @@ button:hover {
     /* Example styling */
 }
 
+.action-button {
+    padding: 10px 15px;
+    margin: 5px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.2s;
+    display: inline-block;
+}
+
+.action-button:hover {
+    background-color: #e1e1e1;
+}
+
+
+/* ======================== Scrollbar Design ==========================*/
+
+
+
+/* Custom Scrollbar Styles */
+::-webkit-scrollbar {
+    width: 12px;
+    /* Adjust width of the scrollbar */
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    /* Color of the track */
+    border-radius: 10px;
+    /* Rounded corners for the track */
+    margin-bottom: 0;
+        /* Remove margin at the bottom if present */
+}
+
+::-webkit-scrollbar-thumb {
+    background: #888;
+    /* Color of the scrollbar thumb */
+    border-radius: 10px;
+    /* Rounded corners for the thumb */
+    border: 0;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+    /* Color of the scrollbar thumb on hover */
+}
+
+/* Apply the scrollbar styles to specific elements if needed */
+.dashboardContainer::-webkit-scrollbar {
+    /* Styles specific to the dashboardContainer's scrollbar */
+}
+
+.recordingContainer::-webkit-scrollbar {
+    /* Styles specific to the recordingContainer's scrollbar */
+}
+
+/* Add scrollbar styles for Firefox */
+* {
+    scrollbar-width: thin;
+    /* 'auto' or 'thin' */
+    scrollbar-color: #888 #f1f1f1;
+    /* thumb and track color */
+}
+
+/* For Firefox */
+* {
+    scrollbar-width: auto;
+    /* 'auto' or 'thin' */
+    scrollbar-color: #888 #f1f1f1;
+    /* thumb and track color */
+}
 
 
 /* ======================== Dashboard Table Design ==========================*/
@@ -572,10 +646,11 @@ button:hover {
     background-color: rgb(60, 68, 78);
     width: 70%;
     float: left;
-    border-radius: 10px 10px 0 0;
+    border-radius: 10px 10px 10px 10px;
     margin-top: 4px;
     margin-right: 8px;
     overflow: hidden;
+    
 }
 
 #playerContainer video {
@@ -597,7 +672,12 @@ button:hover {
     box-sizing: border-box;
     padding: 10px;
     overflow: auto;
-    /* In case the content overflows */
+        /* In case the content overflows */
+    padding-bottom: 0;
+        /* Adjust or remove padding at the bottom if present */
+    margin-bottom: 0;
+        /* Adjust or remove margin at the bottom if present */
+    
 }
 
 #notesContainer {
