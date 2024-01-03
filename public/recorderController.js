@@ -1,18 +1,27 @@
-
 // public/recorderController.js
+
+
+import { auth, uploadRecording } from './firebase.js';
+
 export default class RecorderController {
-    constructor(previewElement) {
+    constructor(previewElement, loadDisplayCallback) {
         this.previewElement = previewElement;
         this.mediaRecorder = null;
         this.recordedChunks = [];
+        this.lastRecordingBlob = null;
         this.screenStream = null;
         this.webcamStream = null;
         this.audioStream = null;
         this.combinedStream = null;
         this.canvas = null;
         this.isRecording = false;
+        this.loadDisplayCallback = loadDisplayCallback; // Assign the passed function
         console.log('RecorderController initialized');
     }
+
+
+
+
     async startRecording(options) {
         if (this.isRecording) {
             console.log('Recording is already in progress.');
@@ -48,7 +57,9 @@ export default class RecorderController {
             this.resetRecorder();
         }
     }
-    stopRecording() {
+
+
+    async stopRecording() {
         if (this.mediaRecorder && this.isRecording) {
             this.mediaRecorder.stop(); // This will trigger the `onstop` event
             this.isRecording = false;
@@ -58,14 +69,50 @@ export default class RecorderController {
             console.log('No recording in progress to stop.');
         }
     }
+
     onRecordingStop() {
-        // Create a blob from the recorded chunks
-        const blob = new Blob(this.recordedChunks, { type: 'video/webm' });
-        // Save the recording
-        this.saveRecording(blob);
-        // Reset the recorder state
-        this.resetRecorder();
+        this.lastRecordingBlob = new Blob(this.recordedChunks, { type: 'video/webm' });
+        console.log('Recording stopped. Blob created.');
+
+        const currentUser = auth.currentUser;
+        if (currentUser) {
+            this.saveRecordingToFirebase(this.lastRecordingBlob)
+                .then(() => {
+                    console.log('Recording saved and dashboard refreshed');
+                    if (this.loadDisplayCallback) {
+                        this.loadDisplayCallback(currentUser.uid);
+                    }
+                })
+                .catch((error) => {
+                    console.error('Error saving recording:', error);
+                });
+        } else {
+            console.error('Error: No user logged in.');
+        }
     }
+
+    async saveRecordingToFirebase(blob) {
+        const currentUser = auth.currentUser;
+        if (currentUser) {
+            try {
+                await uploadRecording(currentUser.uid, blob);
+                console.log('Recording uploaded successfully. Refreshing dashboard...');
+                if (this.loadDisplayCallback && typeof this.loadDisplayCallback === 'function') {
+                    await this.loadDisplayCallback(currentUser.uid);
+                }
+            } catch (error) {
+                console.error('Error during recording upload:', error);
+            }
+        } else {
+            console.log('User is not logged in. Cannot upload recording.');
+        }
+    }
+
+    getLastRecordingBlob() {
+        return this.lastRecordingBlob;
+    }
+
+
     resetRecorder() {
         // Clear the recorded chunks
         this.recordedChunks = [];
@@ -91,7 +138,6 @@ export default class RecorderController {
         }
     }
     async saveRecording(blob) {
-        console.log('Saving recording');
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.style.display = 'none';
@@ -102,6 +148,7 @@ export default class RecorderController {
         window.URL.revokeObjectURL(url);
         console.log('Recording saved');
     }
+
     updatePreview(stream) {
         if (this.previewElement) {
             this.previewElement.srcObject = stream;
@@ -135,5 +182,11 @@ export default class RecorderController {
             default:
                 return null;
         }
+    }
+
+    // Add getLastRecordingBlob method
+    getLastRecordingBlob() {
+        console.log('Retrieving last recording blob:', this.lastRecordingBlob);
+        return this.lastRecordingBlob;
     }
 }
