@@ -1,0 +1,33 @@
+content.js:248 service proxy created BotService ps
+content.js:248 service proxy created UserService ps
+content.js:248 service proxy created ConfigService ps
+content.js:248 service proxy created RequestService ps
+content.js:248 service proxy created MonicaService ps
+content.js:248 service proxy created AgentService ps
+content.js:248 service proxy created ArtistService ps
+content.js:248 service proxy created MemoV2Service ps
+content.js:248 service proxy created ExtensionService ps
+content.js:248 service proxy created NotificationService ps
+content.js:248 service proxy created MonicaTranslateService ps
+content.js:248 service proxy created TranslateService ps
+content.js:248 service proxy created WritingService ps
+content.js:248 service proxy created AgentService ps
+recorderController.js:19 RecorderController initialized
+dashboard.js:52 Fetched Recordings:  Array(14)
+Navigated to http://localhost:3000/
+content.js:248 service proxy created BotService ps {_instance: Xk, constructor: ƒ, onInit: ƒ, getAllChatBotList: ƒ, getAllArtistBotList: ƒ, …}
+content.js:248 service proxy created UserService ps {_instance: Kk, constructor: ƒ, onInit: ƒ, markAuthComplete: ƒ, getVipInfoBundle: ƒ, …}
+content.js:248 service proxy created ConfigService ps {_instance: Qk, constructor: ƒ, onInit: ƒ, _doMigrations: ƒ, _setSystemDefaultLocale: ƒ, …}
+content.js:248 service proxy created RequestService ps {_instance: Jk, constructor: ƒ, onInit: ƒ, getSubscriptionPlans: ƒ, submitFeedback: ƒ, …}
+content.js:248 service proxy created MonicaService ps {_instance: ST, constructor: ƒ, onInit: ƒ, onContentAppCreated: ƒ, refreshTabAndOpenMonica: ƒ, …}
+content.js:248 service proxy created AgentService ps {_instance: kT, constructor: ƒ, onInit: ƒ, taskMessageList: ƒ, uploadFavicon: ƒ, …}
+content.js:248 service proxy created ArtistService ps {_instance: KT, constructor: ƒ, onInit: ƒ, listItems: ƒ, deleteItem: ƒ, …}
+content.js:248 service proxy created MemoV2Service ps {_instance: E_, constructor: ƒ, onInit: ƒ, list: ƒ, search: ƒ, …}
+content.js:248 service proxy created ExtensionService ps {_instance: T_, constructor: ƒ, onInit: ƒ, openMonicaChatTabPage: ƒ, getCommands: ƒ, …}
+content.js:248 service proxy created NotificationService ps {_instance: U_, constructor: ƒ, onInit: ƒ, getNotificationData: ƒ, readNotification: ƒ, …}
+content.js:248 service proxy created MonicaTranslateService ps {_instance: z_, constructor: ƒ, onInit: ƒ, getStorageValue: ƒ, setStorageValue: ƒ, …}
+content.js:248 service proxy created TranslateService ps {_instance: W_, constructor: ƒ, translate: ƒ, feedbackTranslateResult: ƒ, translateByServer: ƒ, …}
+content.js:248 service proxy created WritingService ps {_instance: q_, constructor: ƒ, onInit: ƒ, setStorage: ƒ, getAllConfig: ƒ, …}
+content.js:248 service proxy created AgentService ps {_instance: XI, constructor: ƒ, onInit: ƒ, taskMessageList: ƒ, uploadFavicon: ƒ, …}
+recorderController.js:19 RecorderController initialized
+dashboard.js:52 Fetched Recordings:  (14) [{…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}]

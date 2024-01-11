@@ -1,78 +1,62 @@
 /*============== Login/Signup Popup ==============*/
 
+/* Overlay covering the entire screen */
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    /* Semi-transparent background */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    /* High z-index to be on top of other elements */
+}
+
+/* Popup container */
+.popup {
+    background-color: white;
+    padding: 40px;
+    border-radius: 8px;
+    width: 25%;
+    min-width: 300px;
+    /* Minimum width */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 /* Hidden class */
 .hidden {
     display: none;
 }
 
-/* Hide login popup by default */
-#loginPopup {
-    display: hidden;
-    /* Add other styling for the login popup here */
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    align-items: center;
-    z-index: 2000;
-    /* Make sure it appears above other content */
-}
-
-.login-container {
-    /* Replace with the actual class or ID of your login container */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    /* Aligns children elements vertically */
-}
-
-
 /* Logo styles */
 .logo {
-    max-width: 80px;
+    max-width: 100px;
     /* Set a max width for the logo */
-    margin: 0 auto 24px;
-        /* Centers horizontally and adds margin at the bottom */    align-items: center;
-    align-self: center;
-    justify-content: center;
-    display: block;
-            /* Ensures it's treated as a block-level element for centering */
+    margin-bottom: 24px;
 }
 
-#continue-as-guest-popup {
-    background-color: #f8f9fa;
+/* Heading styles */
+.popup h2 {
+    font-size: 1.25rem;
     color: #333;
-    border: 1px solid #ddd;
-    padding: 12px 24px;
-    width: 80%;
-    max-width: 300px;
-    margin: 8px auto;
-    /* This should center the button */
-    display: block;
-    /* Ensures the element behaves like a block for centering */
-    font-size: 1rem;
+    margin-bottom: 24px;
+}
+
+.google-sign-in-button {
     cursor: pointer;
-    transition: background-color 0.3s;
+    /* Makes the image behave like a button */
     text-align: center;
-    /* Center aligns the text inside the button */
-}
-
-#continue-as-guest-popup:hover {
-    background-color: #e2e3e5;
-}
-
-/* Divider */
-.divider {
+    /* Centers the image */
     margin: 16px 0;
-    color: #757575;
-    text-align: center;
+    /* Adds some margin around the button */
 }
-
 
 .google-sign-in-button img {
     width: 100%;
@@ -81,11 +65,80 @@
     /* Ensures the image does not become too large */
     display: block;
     /* Ensures the image does not inline */
-    margin: 0px auto;
+    margin: 0 auto;
     /* Centers the image within its container */
-    
 }
 
+/* Google Sign In Button */
+.google-button {
+    background-color: #4285F4;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    /* Increased padding for a larger button */
+    margin-bottom: 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    /* Adjusted font size */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 80%;
+    /* Adjust width as needed */
+    max-width: 300px;
+    /* Maximum width of the button */
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .25);
+    /* Shadow for depth */
+}
+
+.google-button img {
+    margin-right: 12px;
+    /* Space between icon and text */
+    width: 20px;
+    /* Adjust icon size as needed */
+    height: auto;
+    /* Maintain aspect ratio */
+}
+
+/* Adjust the button's margin to center it vertically and horizontally */
+.google-button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0;
+}
+
+/* Continue as Guest button styling for better alignment with the design */
+#continue-as-guest-popup {
+    background-color: #f8f9fa;
+    color: #333;
+    border: 1px solid #ddd;
+    padding: 12px 24px;
+    /* Matching padding for consistent height with Google button */
+    width: 80%;
+    /* Match the width of the Google button */
+    max-width: 300px;
+    /* Maximum width matching the Google button */
+    margin: 10px auto;
+    /* Auto margin for horizontal centering */
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#continue-as-guest-popup:hover {
+    background-color: #e2e3e5;
+}
+
+
+
+
+/* Divider */
+.divider {
+    margin: 16px 0;
+    color: #757575;
+}
 
 /* Input group */
 .input-group {
@@ -97,14 +150,14 @@
     width: calc(100% - 20px);
     /* Full width minus padding */
     padding: 10px;
-    margin: 16px 0;
+    margin-bottom: 16px;
     border: 1px solid #ccc;
     border-radius: 4px;
 }
 
-/* Email Continue button */
+/* Continue button */
 .continue-button {
-    background-color: #495af8;
+    background-color: #0a8d48;
     /* Adjust the color to fit your branding */
     color: white;
     border: none;
@@ -113,21 +166,18 @@
     width: 100%;
     cursor: pointer;
     font-size: 0.9rem;
-    margin: 8px 0;
 }
 
 /* Remember Me Checkbox */
 .checkbox-group {
-    text-align: center;
-    margin: 8px 0;
-
+    text-align: left;
+    margin-bottom: 16px;
 }
 
 /* Signup link */
 .signup-link {
     font-size: 0.9rem;
-    margin: 12px 0;
-    text-align: center;
+    margin-top: 16px;
 }
 
 /* Responsive adjustments */

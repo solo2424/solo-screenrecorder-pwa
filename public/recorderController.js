@@ -7,6 +7,7 @@ export default class RecorderController {
     constructor() {
         this.mediaRecorder = null;
         this.recordedChunks = [];
+        this.lastRecordingBlob = null;
         this.screenStream = null;
         this.webcamStream = null;
         this.audioStream = null;
@@ -14,6 +15,7 @@ export default class RecorderController {
         this.previewElement = document.querySelector('#preview');
         this.webcamElement = document.querySelector('#draggable-webcam');
     }
+
 
     async startRecording(options) {
         try {
@@ -199,6 +201,9 @@ export default class RecorderController {
             startRecordingBtn.style.display = 'block';
         }
     }
+
+
+
     async saveRecording(blob) {
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');

@@ -1,4 +1,4 @@
-<!-- public\index.html -->
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -7,42 +7,44 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SoLoScreenRecord</title>
-    <link rel="stylesheet" type="text/css" href="css/loadingProgress.css">
-    <link rel="stylesheet" type="text/css" href="login.css">
+    <link rel="manifest" href="/manifest.webmanifest">
     <link rel="stylesheet" type="text/css" href="navbar.css">
     <link rel="stylesheet" type="text/css" href="dashboard.css">
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <link rel="stylesheet" type="text/css" href="splashScreen.css">
+    <link rel="stylesheet" type="text/css" href="login.css">
 </head>
 
 <body>
+    
+    <div id="navbar-placeholder"></div>
+
 
     <!-- Splash Screen Container -->
     <div id="splash-container">
         <h1>Welcome to SoLoScreenRecord</h1>
         <p>Effortlessly record your screen and webcam.</p>
         <button id="continue-as-guest">Continue as Guest</button>
-        <button id="start-free" onclick="showLoginPopup()">Login/Signup</button>
-    </div>
-
-    <!-- Navigation Bar Placeholder -->
-    <div id="navbar-placeholder"></div>
-    
-    <!-- Sidebar -->
-    <div class="sidebar">
-        <button id="new-recording">New Recording</button>
-        <h1>Welcome, <span id="sidebar-user-name">User</span>!</h1>
-        <button class="sidebar-item active">Personal</button>
-        <button id="view-toggle">Toggle The View</button>
+        <button id="start-free">Login/Signup</button>
     </div>
 
     <!-- Login/Signup Popup -->
-    <div id="loginPopup" class="hidden">
+    <div id="loginPopup" class="popup hidden">
+        <!-- Logo placeholder - you can replace this with your actual logo -->
         <img src="images/icon128.png" alt="Logo" class="logo">
         <h2>Remember everything important.</h2>
-        <button class="auth-button" id="continue-as-guest-popup">Continue as Guest</button>
-        <div class="divider">or</div>
+
+        <!-- Google Sign In Button -->
         <div id="googleSignIn" class="google-sign-in-button">
             <img src="images/googleSignin.png" alt="Sign in with Google">
         </div>
+
+        <button class="auth-button" id="continue-as-guest-popup">Continue as Guest</button>
+
+        <!-- Divider -->
+        <div class="divider">or</div>
+
+        <!-- Email Form -->
         <div class="input-group">
             <input type="email" id="loginEmail" placeholder="Email address or username" required>
             <button class="continue-button" id="emailContinue">Continue</button>
@@ -56,58 +58,40 @@
         </div>
     </div>
 
-    <!-- Main Content Area -->
-    <div class="main-content">
-        <!-- Recording Preview Container -->
-        <div id="previewContainer" style="display: none;">
-            <div id="draggable-webcam" style="position: absolute;"></div>
-            <video id="preview" autoplay muted></video>
-            <div id="controlsContainer">
-                <button id="stop-recording" style="display: none;">Stop Recording</button>
+    <!-- Dashboard Container -->
+    <div id="dashboard-container" class="hidden">
+        <div class="dashboard-header">
+            <div class="user-info">
+                <span id="user-name">Username</span>
             </div>
+            <button id="logout-btn">Logout</button>
         </div>
-
-        <!-- Dashboard Container -->
-        <div id="dashboardContainer">
-            <!-- Slider for adjusting thumbnail size -->
-            <input type="range" id="thumbnailSizeSlider" min="1" max="3" step="0.1" value="2" class="thumbnail-size-slider">
-            <!-- Slider for adjusting thumbnail size -->
-            <input type="range" id="thumbnailSizeSlider" min="1" max="3" step="0.1" value="2" class="thumbnail-size-slider">
-            <button id="viewToggle">Switch to Thumbnail View</button>
-            <div id="listViewContainer"></div>
-            <div id="thumbnailViewContainer" style="display: none;"></div>
+        <div class="dashboard-main">
+            <h2>Record your first video</h2>
+            <p>Record your screen, virtual meetings, interviews, presentations, and beyond.</p>
+            <button id="new-recording">New Recording</button>
         </div>
+    </div>
 
-        <!-- Recording Playback Container -->
-        <div id="recordingContainer" style="display: block;">
-            
-            <!-- Player Container for video playback -->
-            <div id="playerContainer" class="player-style">
 
-                <!-- Details Container for recording information -->
-                <div id="detailsContainer" class="details-style">
-                    <div id="recordingFileName"></div>
-                    <div id="recordingLink"></div>
-                    <div id="recordingSize"></div>
-                    <div id="recordingLastModified"></div>
-                    <div id="recordingCreatedDate"></div>
-                    <!-- Inside detailsContainer -->
-                    <div id="actionButtons">
-                        <button id="deleteRecordingButton" class="delete-button">Delete</button>
-                        <a id="downloadRecordingButton" class="download-button">Download</a>
-                    </div>
+    </div>
+    <!-- Main App Container, initially hidden -->
+    <div id="app-container" style="display: none;">
+        <!-- Rest of the main app HTML content -->
+        <!-- Video Container -->
+        <div id="preview-container">
+            <video id="preview" autoplay muted></video>
+            <video id="combined-preview" autoplay muted playsinline></video>
+            <div id="draggable-webcam">
+                <div id="webcam-container">
+                    <video id="webcam-preview" autoplay></video>
                 </div>
             </div>
-
-            <!-- Notes Container for adding notes -->
-            <div id="notesContainer" class="notes-style"></div>
-                <!-- Rich text editor will be initialized here -->
-
-            
         </div>
 
         <!-- Options Overlay -->
-        <div id="optionsOverlay" style="display: none;">
+        <div id="optionsOverlay">
+            <!-- Video Options Container -->
             <div class="options-container">
                 <p class="option-title">Video Options</p>
                 <div class="options-buttons">
@@ -116,6 +100,8 @@
                     <button class="option" data-video="only-camera">Only Camera</button>
                 </div>
             </div>
+
+            <!-- Audio Options Container -->
             <div class="options-container">
                 <p class="option-title">Audio Options</p>
                 <div class="options-buttons">
@@ -126,35 +112,31 @@
                 </div>
             </div>
             <div id="confirm-container">
-                <button id="confirmOptionStart">Start Recording</button>
+                <button id="confirmOptions">Start Recording</button>
             </div>
         </div>
-    </div>
 
-
-    <!-- Upload Progress Modal -->
-    <div id="uploadProgressModal" class="upload-progress-modal hidden">
-        <div class="upload-progress-content">
-            <div id="progressText">Uploading video...</div>
-            <progress id="uploadProgressBar" value="0" max="100"></progress>
-            <div id="progressPercentage">0%</div>
+        <!-- Control Buttons -->
+        <div id="controls">
+            <button id="start">Start</button>
+            <button id="stop">Stop</button>
         </div>
     </div>
-
-
-
-    <!-- Firebase Initialization and Utility Functions -->
+    
+    <!-- Include Firebase SDKs -->
+    <script type="module" src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
+    <script type="module" src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js"></script>
+    
+    <!-- Include your Firebase initialization and utility functions -->
     <script type="module" src="firebase.js"></script>
     <!-- Scripts -->
-    
     <script type="module" src="login.js"></script>
-    <script type="module" src="dashboard.js"></script>
-    <script type="module" src="recorderController.js"></script>
-    <script type="module" src="optionsSettings.js"></script>
     <script type="module" src="navbar.js"></script>
+    <script type="module" src="dashboard.js"></script>
+    <script type="module" src="dragVideo.js"></script>
     <script type="module" src="fileSaver.js"></script>
     <script type="module" src="main.js"></script>
     <script type="module" src="splashScreen.js"></script>
-</body>
-
-</html>
+    </body>
+    
+    </html>
