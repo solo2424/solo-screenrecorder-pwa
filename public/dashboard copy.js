@@ -1,200 +1,148 @@
-// dashboard.js
-// Import the necessary functions from firebase.js
-import {
-    fetchUserRecordings,
-    auth,
-    db,
-    onAuthStateChanged,
-    collection,
-    onSnapshot
-} from './firebase.js';
-
-const dashboardContainer = document.getElementById('dashboardContainer');
-let currentView = 'thumbnail'; // Set thumbnail view as default
-
-// Function to toggle between list and thumbnail view
-window.toggleView = () => {
-    currentView = currentView === 'list' ? 'thumbnail' : 'list';
-    updateView(); // Call a function to update the UI based on the current view
-};
-
-export function setDefaultViewToThumbnails() {
-    // Check if the current view is not already 'thumbnail' and toggle if needed
-    if (currentView !== 'thumbnail') {
-        currentView = 'thumbnail';
-        // Call the function to update the UI to thumbnail view
-        updateView(); // Assuming updateView() switches the view and updates the UI
-    }
-}
-
-// Function to initialize the dashboard
-function initializeDashboard(userId) {
-    const recordingsRef = collection(db, `users/${userId}/recordings`);
-    onSnapshot(recordingsRef, (querySnapshot) => {
-        const updatedRecordings = [];
-        querySnapshot.forEach((doc) => {
-            updatedRecordings.push({ id: doc.id, ...doc.data() });
-        });
-        // Use the current view to decide which view to create
-        if (currentView === 'list') {
-            createListView(updatedRecordings);
-        } else {
-            createThumbnailView(updatedRecordings);
-        }
-    });
-}
-
-// Function to update the dashboard view
-function updateView() {
-    if (currentView === 'thumbnail') {
-        // Clear existing content
-        dashboardContainer.innerHTML = '';
-        // Add any necessary classes to dashboardContainer for thumbnail view
-        // Possibly call a function to create and show the thumbnails
-        createThumbnailView();
-    } else {
-        // Handle switching to list view if necessary
-    }
-}
-
-
-// Function to create a list view
-function createListView(recordings) {
-    console.log('Creating List View');
-    dashboardContainer.innerHTML = ''; // Clear the container
-    // ... Complete implementation for creating a list view...
-}
-
-// Function to create a thumbnail view
 function createThumbnailView(recordings) {
-    console.log('Creating Thumbnail View');
-    dashboardContainer.innerHTML = ''; // Clear the container
-    const thumbnailContainer = document.createElement('div');
-    thumbnailContainer.className = 'thumbnail-container';
+    const dashboardContainer = document.getElementById('dashboardContainer');
+    const gridContainer = document.createElement('div');
+    gridContainer.className = 'grid-container';
+
     recordings.forEach(recording => {
         const thumbnail = document.createElement('div');
         thumbnail.className = 'recording-thumbnail';
-        thumbnail.innerHTML = `
-            <img class="recording-thumbnail-img" src="${recording.thumbnailUrl}" alt="${recording.name}">
-            <div class="recording-info">
-                <div class="recording-title">${recording.name}</div>
-                <div class="recording-date">${formatDate(recording.createdAt)}</div>
-            </div>
-        `;
-        thumbnailContainer.appendChild(thumbnail);
-    });
-    dashboardContainer.appendChild(thumbnailContainer);
-}
 
-
-// Function to load and display recordings
-async function loadAndDisplayRecordings(userId) {
-    try {
-        console.log(`Loading recordings for user: ${userId}`);
-        const recordings = await fetchUserRecordings(userId);
-        console.log('Recordings fetched successfully:', recordings);
-        createSortableTable(recordings);
-    } catch (error) {
-        console.error('Failed to load recordings:', error);
-        dashboardContainer.innerHTML = '<p>Error loading recordings. Please try again later.</p>';
-    }
-}
-
-// Function to create a sortable table with recordings data
-function createSortableTable(recordings) {
-    // Create table elements
-    const table = document.createElement('table');
-    table.className = 'recordings-table';
-    const thead = document.createElement('thead');
-    const tbody = document.createElement('tbody');
-    table.appendChild(thead);
-    table.appendChild(tbody);
-
-    // Define table headers, including a 'Thumbnail' column
-    const headers = ['Thumbnail', 'Name', 'Size', 'Link', 'Created Date', 'Last Modified'];
-    const headerRow = document.createElement('tr');
-    headers.forEach(headerText => {
-        const header = document.createElement('th');
-        header.textContent = headerText;
-        headerRow.appendChild(header);
-    });
-    thead.appendChild(headerRow);
-
-    // Populate the table body with recordings data
-    recordings.forEach(recording => {
-        const row = document.createElement('tr');
-
-        // Add a cell with the thumbnail
-        const thumbnailCell = document.createElement('td');
         const thumbnailImg = document.createElement('img');
-        thumbnailImg.src = recording.thumbnailUrl; // Assuming 'thumbnailUrl' is part of your recording object
-        thumbnailImg.className = 'table-thumbnail'; // Use class to style the image
-        thumbnailCell.appendChild(thumbnailImg);
-        row.appendChild(thumbnailCell);
+        thumbnailImg.className = 'recording-thumbnail-img';
+        thumbnailImg.src = recording.thumbnailUrl || 'images/default-thumbnail.png';
+        thumbnailImg.alt = recording.name;
+        thumbnailImg.addEventListener('click', () => displayRecordingDetails(recording));
 
-        // Other cells for data
-        row.innerHTML += `
-        <td>${recording.name || 'Unnamed'}</td>
-        <td>${formatBytes(recording.size)}</td>
-        <td><a href="${recording.url}" target="_blank">Link</a></td>
-        <td>${formatDate(recording.createdAt)}</td>
-        <td>${formatDate(recording.lastModified)}</td>
-    `;
-        tbody.appendChild(row);
-    });
+        const infoDiv = document.createElement('div');
+        infoDiv.className = 'recording-info';
 
+        const titleDiv = document.createElement('div');
+        titleDiv.className = 'recording-title truncate';
+        titleDiv.textContent = recording.name;
 
-    // Clear existing content and append the table to the dashboard container
-    dashboardContainer.innerHTML = '';
-    dashboardContainer.appendChild(table);
-}
+        const dateDiv = document.createElement('div');
+        dateDiv.className = 'recording-date truncate';
+        dateDiv.textContent = formatDate(recording.createdAt);
 
+        // Context menu structure
+        const contextMenu = document.createElement('div');
+        contextMenu.className = 'context-menu';
 
-// Function to initialize sorting for the table
-function initializeTableSorting(table) {
-    const headers = table.querySelectorAll('th[data-sortable="true"]');
-    headers.forEach(header => {
-        header.addEventListener('click', () => {
-            const columnIndex = Array.from(header.parentNode.children).indexOf(header);
-            const isAscending = header.classList.toggle('ascending');
-            sortTableByColumn(table, columnIndex, isAscending);
+        const contextMenuButton = document.createElement('button');
+        contextMenuButton.className = 'context-menu-button';
+        contextMenuButton.textContent = '⋮'; // Vertical ellipsis
+
+        // Context menu content
+        const contextMenuContent = document.createElement('div');
+        contextMenuContent.className = 'context-menu-content';
+
+        // Event listener for context menu button
+        contextMenuButton.addEventListener('click', (event) => {
+            console.log("Context menu button clicked");
+            showContextMenu(event, contextMenuButton, contextMenuContent);
         });
-    });
-}
 
-// Function to sort the table by a specific column
-function sortTableByColumn(table, columnIndex, ascending) {
-    const tbody = table.tBodies[0];
-    const rows = Array.from(tbody.querySelectorAll('tr'));
+        contextMenuButton.addEventListener('mouseover', (event) => {
+            console.log("Mouse over context menu button");
+            showContextMenu(event, contextMenuButton, contextMenuContent);
+        });
 
-    const sortedRows = rows.sort((a, b) => {
-        const aText = a.cells[columnIndex].textContent.trim();
-        const bText = b.cells[columnIndex].textContent.trim();
-        return ascending ? aText.localeCompare(bText) : bText.localeCompare(aText);
-    });
-
-    // Re-add the sorted rows to the tbody
-    tbody.innerHTML = '';
-    tbody.append(...sortedRows);
-}
-
-// Utility function to format bytes into a readable format
-function formatBytes(bytes, decimals = 2) {
-    if (bytes === 0) return '0 Bytes';
-    const k = 1024;
-    const dm = decimals < 0 ? 0 : decimals;
-    const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
-    const i = Math.floor(Math.log(bytes) / Math.log(k));
-    return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
-}
-
-// Utility function to format dates
-function formatDate(timestamp) {
-    const date = new Date(timestamp);
-    return date.toLocaleString(); // Adjust formatting as needed
-}
+        // Hide context menu on mouse leave
+        contextMenuContent.addEventListener('mouseleave', () => {
+            console.log("Mouse left context menu content");
+            contextMenuContent.style.display = 'none';
+            if (contextMenuContent.parentNode === document.body) {
+                document.body.removeChild(contextMenuContent);
+            }
+        });
 
 
+        // Existing click event listener
+        contextMenuButton.onclick = (event) => showContextMenu(event, contextMenuButton, contextMenuContent);
+        contextMenuButton.onmouseover = (event) => showContextMenu(event, contextMenuButton, contextMenuContent);
 
-// Export the function to be called from main.js
-export { loadAndDisplayRecordings };
+
+        const deleteLink = document.createElement('a');
+        deleteLink.href = '#';
+        deleteLink.textContent = 'Delete';
+        deleteLink.onclick = async (event) => {
+            event.preventDefault();
+            // Prompt the user for confirmation
+            const confirmation = confirm("Are you sure you want to delete this recording?");
+            if (confirmation) {
+                // If the user confirms, proceed with the deletion
+                try {
+                    await deleteRecording(recording.id);
+                    console.log("Recording deleted successfully");
+
+                    // Hide the recordingContainer and show the dashboardContainer
+                    recordingContainer.style.display = 'none';
+                    dashboardContainer.style.display = 'block';
+                } catch (error) {
+                    console.error("Error deleting recording:", error);
+                }
+            }
+        };
+
+        const downloadLink = document.createElement('a');
+        downloadLink.textContent = 'Download';
+        // Fetch the file data and create a Blob URL for the download link
+        fetch(recording.url, { cache: 'no-store' })
+            .then(response => response.blob())
+            .then(blob => {
+                const url = URL.createObjectURL(blob);
+                downloadLink.href = url;
+                downloadLink.download = recording.name;
+            })
+            .catch(console.error);
+
+
+        // Append children to context menu content
+        contextMenuContent.appendChild(deleteLink);
+        contextMenuContent.appendChild(downloadLink);
+
+        // Append context menu button and content to context menu div
+        contextMenu.appendChild(contextMenuButton);
+        contextMenu.appendChild(contextMenuContent);
+
+        // Add CSS styles to align children vertically in the middle
+        infoDiv.style.display = 'flex';
+        infoDiv.style.flexDirection = 'row';
+        infoDiv.style.justifyContent = 'space-between';
+        infoDiv.style.alignItems = 'center'; // Add this line
+
+        // Create a new div to wrap the name and date
+        const textDiv = document.createElement('div');
+        textDiv.style.display = 'flex';
+        textDiv.style.flexDirection = 'column';
+        textDiv.style.flexGrow = '1';
+        textDiv.style.flexShrink = '1';
+        textDiv.style.overflow = 'hidden'; // Add this line
+
+        // Append the name and date to the new div
+        textDiv.appendChild(titleDiv);
+        textDiv.appendChild(dateDiv);
+
+        // Append the new div and the context menu to the infoDiv
+        infoDiv.appendChild(textDiv);
+        infoDiv.appendChild(contextMenu);
+
+
+
+        // Append children to thumbnail div
+        thumbnail.appendChild(thumbnailImg);
+        thumbnail.appendChild(infoDiv);
+
+        // Append thumbnail div to the grid container
+        gridContainer.appendChild(thumbnail);
+
+        // Format the recording name and date
+        titleDiv.textContent = ` ${recording.name}`;
+        dateDiv.textContent = ` ${formatDate(recording.createdAt)}`;
+
+        titleDiv.className = 'recording-title truncate';
+        dateDiv.className = 'recording-date truncate';
+
+        gridContainer.appendChild(thumbnail);
+
+    }

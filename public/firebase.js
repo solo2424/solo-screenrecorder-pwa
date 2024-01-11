@@ -20,6 +20,7 @@ import {
     collection,
     query,
     addDoc,
+    deleteDoc,
     onSnapshot,
     Timestamp
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
@@ -29,6 +30,8 @@ import {
     uploadBytes,
     getDownloadURL
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
+
+
 
 // Firebase configuration for the current app
 const firebaseConfig = {
@@ -62,6 +65,7 @@ const updateUIOnAuthStateChange = (user) => {
         splashContainer.style.display = 'none';
         sidebar.style.display = 'block';
         fetchUserData(user.uid);
+        fetchAndDisplayRecordings(user.uid); // Add this line
     } else {
         splashContainer.style.display = 'flex';
         sidebar.style.display = 'none';
@@ -69,7 +73,15 @@ const updateUIOnAuthStateChange = (user) => {
 };
 
 // Listen for auth state changes
-onAuthStateChanged(auth, updateUIOnAuthStateChange);
+onAuthStateChanged(auth, (user) => {
+    if (user) {
+        // User is signed in, call fetchAndDisplayRecordings here
+        fetchAndDisplayRecordings(user.uid);
+    } else {
+        // No user is signed in.
+        console.log("No authenticated user.");
+    }
+});
 
 // Function to fetch user data from Firestore
 async function fetchUserData(userId) {
@@ -104,6 +116,33 @@ function updateNavbarUser(userData) {
     }
 }
 
+
+// Command to Fetch User's Recordings from Firebase.
+
+async function fetchAndDisplayRecordings(userId) {
+    const querySnapshot = await getDocs(collection(db, `users/${userId}/recordings`));
+    const recordings = querySnapshot.docs.map(doc => doc.data());
+
+    if (recordings.length === 0) {
+        // If there are no recordings, display a message
+        dashboardContainer.innerHTML = `
+            <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%;">
+                <p>Get started with your first recording.</p>
+                <button id="startRecordingButton">Start Recording</button>
+            </div>
+        `;
+        const startRecordingButton = document.getElementById('startRecordingButton');
+        startRecordingButton.onclick = () => {
+            // Call the function that shows the optionsOverlay here
+            showOptionsOverlay();
+        };
+    } else {
+        // If there are recordings, display them
+        // Add your existing code to display the recordings here
+    }
+}
+
+
 // Function to upload a recording to Firebase Storage
 async function uploadRecording(userId, blob) {
     try {
@@ -111,7 +150,8 @@ async function uploadRecording(userId, blob) {
 
         // Construct the file name using the current timestamp
         const now = new Date();
-        const fileName = `ssr-${now.getTime()}.webm`;
+        const formattedDate = now.toISOString().split('.')[0];
+        const fileName = `ssr-${formattedDate}.webm`;
         const storageRef = ref(storage, `recordings/${userId}/${fileName}`);
 
         // Upload the recording
@@ -143,6 +183,19 @@ async function uploadRecording(userId, blob) {
     }
 }
 
+// Realtime listener for user recordings (adjusted function)
+function onRecordingsChanged(userId, callback) {
+    const recordingsRef = collection(db, `users/${userId}/recordings`);
+
+    // Attach a listener for realtime updates
+    onSnapshot(recordingsRef, (snapshot) => {
+        const updatedRecordings = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        callback(updatedRecordings);
+    }, (error) => {
+        console.error("Error listening for recording updates:", error);
+    });
+}
+
 // Function to generate a thumbnail image from the video blob
 async function generateAndUploadThumbnail(userId, videoBlob, timestamp) {
     // Create a video element in memory
@@ -161,28 +214,25 @@ async function generateAndUploadThumbnail(userId, videoBlob, timestamp) {
         videoElement.addEventListener('play', () => {
             // Use requestAnimationFrame to ensure the frame is captured after the video starts playing
             requestAnimationFrame(() => {
-                try {
-                    context.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
-                    canvas.toBlob(async (thumbnailBlob) => {
-                        const thumbnailName = `thumbnail-${timestamp}.jpg`;
-                        const thumbnailRef = ref(storage, `thumbnails/${userId}/${thumbnailName}`);
-                        const thumbnailUploadResult = await uploadBytes(thumbnailRef, thumbnailBlob);
-                        const thumbnailDownloadURL = await getDownloadURL(thumbnailUploadResult.ref);
-                        resolve(thumbnailDownloadURL);
-                    }, 'image/jpeg');
-                } catch (error) {
-                    reject(error);
-                }
+                // Add a delay before capturing the frame
+                setTimeout(() => {
+                    try {
+                        context.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
+                        canvas.toBlob(async (thumbnailBlob) => {
+                            const thumbnailName = `thumbnail-${timestamp}.jpg`;
+                            const thumbnailRef = ref(storage, `thumbnails/${userId}/${thumbnailName}`);
+                            const thumbnailUploadResult = await uploadBytes(thumbnailRef, thumbnailBlob);
+                            const thumbnailDownloadURL = await getDownloadURL(thumbnailUploadResult.ref);
+                            resolve(thumbnailDownloadURL);
+                        }, 'image/jpeg');
+                    } catch (error) {
+                        reject(error);
+                    }
+                }, 10000); // Delay in milliseconds
             });
         });
     });
 }
-    
-
-    
-
-
-
 
 // Add this function to `firebase.js`
 async function fetchUserRecordings(userId) {
@@ -194,43 +244,6 @@ async function fetchUserRecordings(userId) {
     return recordings;
 }
 
-function onRecordingsChanged(userId, callback) {
-    const recordingsRef = collection(db, `users/${userId}/recordings`);
-
-    // Listen for realtime updates
-    onSnapshot(recordingsRef, (querySnapshot) => {
-        const updatedRecordings = [];
-        querySnapshot.forEach((doc) => {
-            updatedRecordings.push({ id: doc.id, ...doc.data() });
-        });
-        callback(updatedRecordings); // Execute callback with the new data
-    });
-}
-
-
-
-// Function to upload a test file to Firestore
-async function uploadTestFile(userId) {
-    try {
-        console.log("Uploading test file for user:", userId);
-
-        // Create a test file data
-        const testData = {
-            content: "This is a test file content",
-            timestamp: Timestamp.fromDate(new Date())
-        };
-
-        // Generate a unique identifier for the test file
-        const fileId = `testfile_${new Date().getTime()}`;
-
-        // Save the test file under the user's Firestore document
-        await setDoc(doc(db, "users", userId, "testfiles", fileId), testData);
-
-        console.log("Test file uploaded successfully:", fileId);
-    } catch (error) {
-        console.error("Error uploading test file:", error);
-    }
-}
 
 // Export functions and variables
 export {
@@ -245,11 +258,13 @@ export {
     doc,
     setDoc,
     getDoc,
+    getDocs,
     collection,
     query,
     onSnapshot,
+    deleteDoc,
+    fetchAndDisplayRecordings,
     uploadRecording,
-    uploadTestFile,
     fetchUserRecordings,
     onRecordingsChanged,
     updateUIOnAuthStateChange

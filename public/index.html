@@ -7,6 +7,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SoLoScreenRecord</title>
+    <link rel="stylesheet" type="text/css" href="css/loadingProgress.css">
     <link rel="stylesheet" type="text/css" href="login.css">
     <link rel="stylesheet" type="text/css" href="navbar.css">
     <link rel="stylesheet" type="text/css" href="dashboard.css">
@@ -59,6 +60,7 @@
     <div class="main-content">
         <!-- Recording Preview Container -->
         <div id="previewContainer" style="display: none;">
+            <div id="draggable-webcam" style="position: absolute;"></div>
             <video id="preview" autoplay muted></video>
             <div id="controlsContainer">
                 <button id="stop-recording" style="display: none;">Stop Recording</button>
@@ -74,19 +76,6 @@
             <button id="viewToggle">Switch to Thumbnail View</button>
             <div id="listViewContainer"></div>
             <div id="thumbnailViewContainer" style="display: none;"></div>
-            <table id="recordingsTable">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Date</th>
-                        <th>Size</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody id="recordingsList">
-                    <!-- Recording entries will be inserted here -->
-                </tbody>
-            </table>
         </div>
 
         <!-- Recording Playback Container -->
@@ -102,6 +91,11 @@
                     <div id="recordingSize"></div>
                     <div id="recordingLastModified"></div>
                     <div id="recordingCreatedDate"></div>
+                    <!-- Inside detailsContainer -->
+                    <div id="actionButtons">
+                        <button id="deleteRecordingButton" class="delete-button">Delete</button>
+                        <a id="downloadRecordingButton" class="download-button">Download</a>
+                    </div>
                 </div>
             </div>
 
@@ -137,9 +131,22 @@
         </div>
     </div>
 
+
+    <!-- Upload Progress Modal -->
+    <div id="uploadProgressModal" class="upload-progress-modal hidden">
+        <div class="upload-progress-content">
+            <div id="progressText">Uploading video...</div>
+            <progress id="uploadProgressBar" value="0" max="100"></progress>
+            <div id="progressPercentage">0%</div>
+        </div>
+    </div>
+
+
+
     <!-- Firebase Initialization and Utility Functions -->
     <script type="module" src="firebase.js"></script>
     <!-- Scripts -->
+    
     <script type="module" src="login.js"></script>
     <script type="module" src="dashboard.js"></script>
     <script type="module" src="recorderController.js"></script>

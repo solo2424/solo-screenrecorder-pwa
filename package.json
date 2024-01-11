@@ -51,6 +51,8 @@
     "file-saver": "^2.0.5",
     "fill-range": "^4.0.0",
     "finalhandler": "^1.1.2",
+    "firebase-admin": "^11.11.1",
+    "firebase-functions": "^4.5.0",
     "for-in": "^1.0.2",
     "fragment-cache": "^0.2.1",
     "fresh": "^0.5.2",

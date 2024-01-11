@@ -6,7 +6,7 @@ import {
     updateUIOnAuthStateChange,
 } from './firebase.js';
 import RecorderController from './recorderController.js';
-import { loadAndDisplayRecordings, setDefaultViewToThumbnails } from './dashboard.js';
+import { loadAndDisplayRecordings, setDefaultViewToThumbnails,} from './dashboard.js';
 
 // import { loadDisplayCallback } from './recorderController.js';
 
@@ -37,6 +37,7 @@ onAuthStateChanged(auth, (user) => {
     updateUIOnAuthStateChange(user);
     if (user) {
         console.log('User signed in:', user.uid);
+        handleDashboardVisibilityChange(); // Refresh recordings
         dashboardContainer.style.display = 'block'; // Show the dashboard container
         setDefaultViewToThumbnails();
         loadAndDisplayRecordings(user.uid);
@@ -45,6 +46,21 @@ onAuthStateChanged(auth, (user) => {
         dashboardContainer.style.display = 'none'; // Hide the dashboard container
     }
 });
+
+
+function handleDashboardVisibilityChange() {
+    if (dashboardContainer.style.display === 'block') {
+        const user = auth.currentUser;
+        if (user) {
+            console.log('Dashboard is visible. Fetching latest recordings for user:', user.uid);
+            loadAndDisplayRecordings(user.uid);
+        }
+    }
+}
+
+
+/////////////////// Recording Options ////////////////////
+
 
 // Handle option selection
 function handleOptionSelection(buttons, optionType) {

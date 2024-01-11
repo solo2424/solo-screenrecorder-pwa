@@ -7,8 +7,6 @@ import {
     doc,
     setDoc,
     signInWithPopup,
-    uploadTestFile, // Exporting the new test file upload function
-    updateUIOnAuthStateChange,
     GoogleAuthProvider
 } from './firebase.js';
 
