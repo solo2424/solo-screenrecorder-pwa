@@ -1,3 +1,5 @@
+// public\service-worker.js
+
 // Names of the two caches used in this version of the service worker.
 const PRECACHE = 'precache-v1';
 const RUNTIME = 'runtime';
@@ -11,8 +13,7 @@ const PRECACHE_URLS = [
     'screenRecorder.js', 
     'webcamRecorder.js', 
     'index.html',
-    'styles.css',
-    'popup.js',
+    'dashboard.css',
     'dragVideo.js',
     // add other assets if needed
 ];

@@ -62,9 +62,4 @@ systemMicButton.addEventListener('click', () => {
     logSelectedOptions();
 });
 
-// Event listener for confirm options
-confirmOptionsButton.addEventListener('click', () => {
-    optionsOverlay.style.display = 'none'; // Hide the options overlay
-    logSelectedOptions();
-    console.log('Confirm Options button clicked. Options overlay hidden.');
-});
+

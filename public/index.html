@@ -18,54 +18,38 @@
     <div id="splash-container">
         <h1>Welcome to SoLoScreenRecord</h1>
         <p>Effortlessly record your screen and webcam.</p>
-        <!-- The image can be included here if needed -->
         <button id="continue-as-guest">Continue as Guest</button>
         <button id="start-free" onclick="showLoginPopup()">Login/Signup</button>
-
     </div>
-
 
     <!-- Navigation Bar Placeholder -->
     <div id="navbar-placeholder"></div>
-    <script type="module" src="navbar.js"></script>
     
-
     <!-- Sidebar -->
     <div class="sidebar">
-        <h1>Welcome, <span id="user-name">User</span>!</h1>
+        <button id="new-recording">New Recording</button>
+        <h1>Welcome, <span id="sidebar-user-name">User</span>!</h1>
         <button class="sidebar-item active">Personal</button>
-        <!-- Additional sidebar items can be added here -->
+        <button id="view-toggle">Toggle The View</button>
     </div>
 
     <!-- Login/Signup Popup -->
     <div id="loginPopup" class="hidden">
-        <!-- Logo placeholder - you can replace this with your actual logo -->
         <img src="images/icon128.png" alt="Logo" class="logo">
         <h2>Remember everything important.</h2>
-
         <button class="auth-button" id="continue-as-guest-popup">Continue as Guest</button>
-
-        <!-- Divider -->
         <div class="divider">or</div>
-
-        <!-- Google Sign In Button -->
         <div id="googleSignIn" class="google-sign-in-button">
             <img src="images/googleSignin.png" alt="Sign in with Google">
         </div>
-       
-        <!-- Email Form -->
         <div class="input-group">
             <input type="email" id="loginEmail" placeholder="Email address or username" required>
             <button class="continue-button" id="emailContinue">Continue</button>
         </div>
-
-        <!-- Remember Me Checkbox -->
         <div class="checkbox-group">
             <input type="checkbox" id="rememberMe" name="remember">
             <label for="rememberMe">Remember me for 30 days</label>
         </div>
-
-        <!-- Signup Link -->
         <div class="signup-link">
             Don't have an account? <a href="#" id="createAccount">Create account</a>
         </div>
@@ -73,17 +57,63 @@
 
     <!-- Main Content Area -->
     <div class="main-content">
-        <button id="new-recording">New Recording</button>
         <!-- Recording Preview Container -->
         <div id="previewContainer" style="display: none;">
             <video id="preview" autoplay muted></video>
+            <div id="controlsContainer">
+                <button id="stop-recording" style="display: none;">Stop Recording</button>
+            </div>
         </div>
-        <button id="stop-recording" style="display: none;">Stop Recording</button>
 
+        <!-- Dashboard Container -->
+        <div id="dashboardContainer">
+            <!-- Slider for adjusting thumbnail size -->
+            <input type="range" id="thumbnailSizeSlider" min="1" max="3" step="0.1" value="2" class="thumbnail-size-slider">
+            <!-- Slider for adjusting thumbnail size -->
+            <input type="range" id="thumbnailSizeSlider" min="1" max="3" step="0.1" value="2" class="thumbnail-size-slider">
+            <button id="viewToggle">Switch to Thumbnail View</button>
+            <div id="listViewContainer"></div>
+            <div id="thumbnailViewContainer" style="display: none;"></div>
+            <table id="recordingsTable">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Date</th>
+                        <th>Size</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="recordingsList">
+                    <!-- Recording entries will be inserted here -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Recording Playback Container -->
+        <div id="recordingContainer" style="display: block;">
+            
+            <!-- Player Container for video playback -->
+            <div id="playerContainer" class="player-style">
+
+                <!-- Details Container for recording information -->
+                <div id="detailsContainer" class="details-style">
+                    <div id="recordingFileName"></div>
+                    <div id="recordingLink"></div>
+                    <div id="recordingSize"></div>
+                    <div id="recordingLastModified"></div>
+                    <div id="recordingCreatedDate"></div>
+                </div>
+            </div>
+
+            <!-- Notes Container for adding notes -->
+            <div id="notesContainer" class="notes-style"></div>
+                <!-- Rich text editor will be initialized here -->
+
+            
+        </div>
 
         <!-- Options Overlay -->
         <div id="optionsOverlay" style="display: none;">
-            <!-- Video Options -->
             <div class="options-container">
                 <p class="option-title">Video Options</p>
                 <div class="options-buttons">
@@ -92,8 +122,6 @@
                     <button class="option" data-video="only-camera">Only Camera</button>
                 </div>
             </div>
-
-            <!-- Audio Options -->
             <div class="options-container">
                 <p class="option-title">Audio Options</p>
                 <div class="options-buttons">
@@ -103,24 +131,21 @@
                     <button class="option" data-audio="system-mic">System + Mic</button>
                 </div>
             </div>
-
-            <!-- Confirm Options Button -->
             <div id="confirm-container">
                 <button id="confirmOptionStart">Start Recording</button>
             </div>
         </div>
-
     </div>
 
-    <!-- Include your Firebase initialization and utility functions -->
+    <!-- Firebase Initialization and Utility Functions -->
     <script type="module" src="firebase.js"></script>
-    
     <!-- Scripts -->
-    <script type="module" src="navbar.js"></script>
     <script type="module" src="login.js"></script>
-<!--  <script type="module" src="dragVideo.js"></script> -->
+    <script type="module" src="dashboard.js"></script>
+    <script type="module" src="recorderController.js"></script>
+    <script type="module" src="optionsSettings.js"></script>
+    <script type="module" src="navbar.js"></script>
     <script type="module" src="fileSaver.js"></script>
-    <script type="module" src="recordercontroller.js"></script>
     <script type="module" src="main.js"></script>
     <script type="module" src="splashScreen.js"></script>
 </body>

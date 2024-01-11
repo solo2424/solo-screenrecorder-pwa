@@ -1,0 +1,608 @@
+Navigated to http://localhost:3000/
+recorderController.js:19 RecorderController initialized
+default-thumbnail.png:1 
+        
+        
+       GET http://localhost:3000/path/to/default-thumbnail.png 404 (Not Found)
+Image (async)
+(anonymous) @ dashboard.js:72
+createThumbnailView @ dashboard.js:69
+updateView @ dashboard.js:52
+(anonymous) @ dashboard.js:46
+next @ reference_impl.ts:732
+(anonymous) @ bundle_reader_impl.ts:43
+setTimeout (async)
+Oa @ bundle_reader_impl.ts:32
+next @ async_observer.ts:45
+H_ @ bundle_reader.ts:29
+K_ @ event_manager.ts:330
+__PRIVATE_eventManagerOnWatchChange @ event_manager.ts:173
+__PRIVATE_syncEngineEmitNewSnapsAndNotifyLocalStore @ local_store_impl.ts:813
+await in __PRIVATE_syncEngineEmitNewSnapsAndNotifyLocalStore (async)
+__PRIVATE_syncEngineApplyRemoteEvent @ sync_engine_impl.ts:536
+await in __PRIVATE_syncEngineApplyRemoteEvent (async)
+__PRIVATE_raiseWatchSnapshot @ remote_store.ts:495
+__PRIVATE_onWatchStreamChange @ remote_store.ts:59
+await in __PRIVATE_onWatchStreamChange (async)
+onMessage @ persistent_stream.ts:655
+(anonymous) @ persistent_stream.ts:529
+(anonymous) @ persistent_stream.ts:574
+(anonymous) @ async_queue_impl.ts:137
+(anonymous) @ async_queue_impl.ts:327
+Promise.then (async)
+ou @ async_queue_impl.ts:188
+enqueue @ async_queue_impl.ts:135
+enqueueAndForget @ async_queue_impl.ts:96
+(anonymous) @ persistent_stream.ts:572
+(anonymous) @ persistent_stream.ts:527
+Vo @ webchannel_connection.ts:56
+(anonymous) @ webchannel_connection.ts:397
+(anonymous) @ webchannel_connection.ts:298
+ib @ eventtarget.js:91
+C$1 @ eventtarget.js:490
+R.Aa @ webchannelbasetransport.js:429
+qc @ structs.js:194
+rc @ channelrequest.js:950
+m.Pa @ channelrequest.js:626
+m.nb @ channelrequest.js:656
+ib @ eventtarget.js:91
+C$1 @ eventtarget.js:490
+Ad @ xhrio.js:922
+m.kb @ xhrio.js:1052
+m.La @ xhrio.js:1050
+od @ fetchxmlhttpfactory.js:237
+m.Xa @ fetchxmlhttpfactory.js:419
+Promise.then (async)
+qd @ fetchxmlhttpfactory.js:468
+m.Xa @ fetchxmlhttpfactory.js:425
+Promise.then (async)
+qd @ fetchxmlhttpfactory.js:468
+m.Xa @ fetchxmlhttpfactory.js:425
+Promise.then (async)
+qd @ fetchxmlhttpfactory.js:468
+m.Xa @ fetchxmlhttpfactory.js:425
+Promise.then (async)
+qd @ fetchxmlhttpfactory.js:468
+m.$a @ fetchxmlhttpfactory.js:358
+Promise.then (async)
+m.send @ fetchxmlhttpfactory.js:272
+m.ha @ xhrio.js:739
+ic @ webchanneldebug.js:83
+Md @ webchannelbase.js:2079
+m.Ma @ webchannelbase.js:1718
+ub @ freelist.js:55
+Promise.then (async)
+X @ run.js:115
+Fc @ webchannelbase.js:1686
+qc @ webchannelbase.js:2328
+rc @ channelrequest.js:950
+m.Pa @ channelrequest.js:626
+m.nb @ channelrequest.js:656
+ib @ eventtarget.js:91
+C$1 @ eventtarget.js:490
+Ad @ xhrio.js:922
+m.kb @ xhrio.js:1052
+m.La @ xhrio.js:1050
+od @ fetchxmlhttpfactory.js:237
+m.Xa @ fetchxmlhttpfactory.js:419
+Promise.then (async)
+qd @ fetchxmlhttpfactory.js:468
+m.$a @ fetchxmlhttpfactory.js:358
+Promise.then (async)
+m.send @ fetchxmlhttpfactory.js:272
+m.ha @ xhrio.js:739
+ic @ channelrequest.js:585
+gc @ channelrequest.js:547
+m.Na @ webchannelbase.js:1366
+ub @ freelist.js:55
+Promise.then (async)
+X @ run.js:115
+Gc @ webchannelbase.js:1536
+Q$1.m @ webchannelbasetransport.js:216
+co @ webchannel_connection.ts:265
+send @ stream_bridge.ts:85
+e_ @ persistent_stream.ts:319
+u_ @ persistent_stream.ts:672
+__PRIVATE_sendWatchRequest @ remote_store.ts:357
+(anonymous) @ remote_store.ts:414
+__PRIVATE_onWatchStreamOpen @ remote_store.ts:410
+(anonymous) @ persistent_stream.ts:512
+(anonymous) @ persistent_stream.ts:574
+(anonymous) @ async_queue_impl.ts:137
+(anonymous) @ async_queue_impl.ts:327
+Promise.then (async)
+ou @ async_queue_impl.ts:188
+enqueue @ async_queue_impl.ts:135
+enqueueAndForget @ async_queue_impl.ts:96
+(anonymous) @ persistent_stream.ts:572
+(anonymous) @ persistent_stream.ts:497
+Ao @ webchannel_connection.ts:50
+(anonymous) @ dom.ts:22
+setTimeout (async)
+vo @ dom.ts:19
+__ @ persistent_stream.ts:640
+s_ @ persistent_stream.ts:492
+(anonymous) @ persistent_stream.ts:464
+Promise.then (async)
+auth @ persistent_stream.ts:459
+start @ persistent_stream.ts:263
+__PRIVATE_startWatchStream @ remote_store.ts:389
+__PRIVATE_remoteStoreListen @ remote_store.ts:288
+__PRIVATE_syncEngineListen @ sync_engine_impl.ts:332
+await in __PRIVATE_syncEngineListen (async)
+__PRIVATE_eventManagerListen @ event_manager.ts:99
+__PRIVATE_readDocumentViaSnapshotListener @ firestore_client.ts:484
+(anonymous) @ firestore_client.ts:487
+await in (anonymous) (async)
+(anonymous) @ async_queue_impl.ts:137
+(anonymous) @ async_queue_impl.ts:327
+Promise.then (async)
+ou @ async_queue_impl.ts:188
+enqueue @ async_queue_impl.ts:135
+enqueueAndForget @ async_queue_impl.ts:96
+__PRIVATE_firestoreClientGetDocumentViaSnapshotListener @ firestore_client.ts:650
+getDoc @ reference_impl.ts:105
+fetchUserData @ firebase.js:78
+updateUIOnAuthStateChange @ firebase.js:64
+(anonymous) @ auth_impl.ts:681
+Promise.then (async)
+registerStateListener @ auth_impl.ts:681
+onAuthStateChanged @ auth_impl.ts:482
+onAuthStateChanged @ index.ts:210
+(anonymous) @ firebase.js:72
+Show 52 more frames
+Show less
+Navigated to http://localhost:3000/
+recorderController.js:19 RecorderController initialized
+default-thumbnail.png:1 
+        
+        
+       GET http://localhost:3000/path/to/default-thumbnail.png 404 (Not Found)
+Image (async)
+(anonymous) @ dashboard.js:72
+createThumbnailView @ dashboard.js:69
+updateView @ dashboard.js:52
+(anonymous) @ dashboard.js:46
+next @ reference_impl.ts:732
+(anonymous) @ bundle_reader_impl.ts:43
+setTimeout (async)
+Oa @ bundle_reader_impl.ts:32
+next @ async_observer.ts:45
+H_ @ bundle_reader.ts:29
+K_ @ event_manager.ts:330
+__PRIVATE_eventManagerOnWatchChange @ event_manager.ts:173
+__PRIVATE_syncEngineEmitNewSnapsAndNotifyLocalStore @ local_store_impl.ts:813
+await in __PRIVATE_syncEngineEmitNewSnapsAndNotifyLocalStore (async)
+__PRIVATE_syncEngineApplyRemoteEvent @ sync_engine_impl.ts:536
+await in __PRIVATE_syncEngineApplyRemoteEvent (async)
+__PRIVATE_raiseWatchSnapshot @ remote_store.ts:495
+__PRIVATE_onWatchStreamChange @ remote_store.ts:59
+await in __PRIVATE_onWatchStreamChange (async)
+onMessage @ persistent_stream.ts:655
+(anonymous) @ persistent_stream.ts:529
+(anonymous) @ persistent_stream.ts:574
+(anonymous) @ async_queue_impl.ts:137
+(anonymous) @ async_queue_impl.ts:327
+Promise.then (async)
+ou @ async_queue_impl.ts:188
+enqueue @ async_queue_impl.ts:135
+enqueueAndForget @ async_queue_impl.ts:96
+(anonymous) @ persistent_stream.ts:572
+(anonymous) @ persistent_stream.ts:527
+Vo @ webchannel_connection.ts:56
+(anonymous) @ webchannel_connection.ts:397
+(anonymous) @ webchannel_connection.ts:298
+ib @ eventtarget.js:91
+C$1 @ eventtarget.js:490
+R.Aa @ webchannelbasetransport.js:429
+qc @ structs.js:194
+rc @ channelrequest.js:950
+m.Pa @ channelrequest.js:626
+m.nb @ channelrequest.js:656
+ib @ eventtarget.js:91
+C$1 @ eventtarget.js:490
+Ad @ xhrio.js:922
+m.kb @ xhrio.js:1052
+m.La @ xhrio.js:1050
+od @ fetchxmlhttpfactory.js:237
+m.Xa @ fetchxmlhttpfactory.js:419
+Promise.then (async)
+qd @ fetchxmlhttpfactory.js:468
+m.$a @ fetchxmlhttpfactory.js:358
+Promise.then (async)
+m.send @ fetchxmlhttpfactory.js:272
+m.ha @ xhrio.js:739
+ic @ webchanneldebug.js:83
+Md @ webchannelbase.js:2079
+m.Ma @ webchannelbase.js:1718
+ub @ freelist.js:55
+Promise.then (async)
+X @ run.js:115
+Fc @ webchannelbase.js:1686
+qc @ webchannelbase.js:2328
+rc @ channelrequest.js:950
+m.Pa @ channelrequest.js:626
+m.nb @ channelrequest.js:656
+ib @ eventtarget.js:91
+C$1 @ eventtarget.js:490
+Ad @ xhrio.js:922
+m.kb @ xhrio.js:1052
+m.La @ xhrio.js:1050
+od @ fetchxmlhttpfactory.js:237
+m.Xa @ fetchxmlhttpfactory.js:419
+Promise.then (async)
+qd @ fetchxmlhttpfactory.js:468
+m.$a @ fetchxmlhttpfactory.js:358
+Promise.then (async)
+m.send @ fetchxmlhttpfactory.js:272
+m.ha @ xhrio.js:739
+ic @ channelrequest.js:585
+gc @ channelrequest.js:547
+m.Na @ webchannelbase.js:1366
+ub @ freelist.js:55
+Promise.then (async)
+X @ run.js:115
+Gc @ webchannelbase.js:1536
+Q$1.m @ webchannelbasetransport.js:216
+co @ webchannel_connection.ts:265
+send @ stream_bridge.ts:85
+e_ @ persistent_stream.ts:319
+u_ @ persistent_stream.ts:672
+__PRIVATE_sendWatchRequest @ remote_store.ts:357
+(anonymous) @ remote_store.ts:414
+__PRIVATE_onWatchStreamOpen @ remote_store.ts:410
+(anonymous) @ persistent_stream.ts:512
+(anonymous) @ persistent_stream.ts:574
+(anonymous) @ async_queue_impl.ts:137
+(anonymous) @ async_queue_impl.ts:327
+Promise.then (async)
+ou @ async_queue_impl.ts:188
+enqueue @ async_queue_impl.ts:135
+enqueueAndForget @ async_queue_impl.ts:96
+(anonymous) @ persistent_stream.ts:572
+(anonymous) @ persistent_stream.ts:497
+Ao @ webchannel_connection.ts:50
+(anonymous) @ dom.ts:22
+setTimeout (async)
+vo @ dom.ts:19
+__ @ persistent_stream.ts:640
+s_ @ persistent_stream.ts:492
+(anonymous) @ persistent_stream.ts:464
+Promise.then (async)
+auth @ persistent_stream.ts:459
+start @ persistent_stream.ts:263
+__PRIVATE_startWatchStream @ remote_store.ts:389
+__PRIVATE_remoteStoreListen @ remote_store.ts:288
+__PRIVATE_syncEngineListen @ sync_engine_impl.ts:332
+await in __PRIVATE_syncEngineListen (async)
+__PRIVATE_eventManagerListen @ event_manager.ts:99
+__PRIVATE_readDocumentViaSnapshotListener @ firestore_client.ts:484
+(anonymous) @ firestore_client.ts:487
+await in (anonymous) (async)
+(anonymous) @ async_queue_impl.ts:137
+(anonymous) @ async_queue_impl.ts:327
+Promise.then (async)
+ou @ async_queue_impl.ts:188
+enqueue @ async_queue_impl.ts:135
+enqueueAndForget @ async_queue_impl.ts:96
+__PRIVATE_firestoreClientGetDocumentViaSnapshotListener @ firestore_client.ts:650
+getDoc @ reference_impl.ts:105
+fetchUserData @ firebase.js:78
+updateUIOnAuthStateChange @ firebase.js:64
+(anonymous) @ auth_impl.ts:681
+Promise.then (async)
+registerStateListener @ auth_impl.ts:681
+onAuthStateChanged @ auth_impl.ts:482
+onAuthStateChanged @ index.ts:210
+(anonymous) @ firebase.js:72
+Show 46 more frames
+Show less
+Navigated to http://localhost:3000/
+recorderController.js:19 RecorderController initialized
+:3000/public/images/default-thumbnail.png:1 
+        
+        
+       GET http://localhost:3000/public/images/default-thumbnail.png 404 (Not Found)
+Image (async)
+(anonymous) @ dashboard.js:72
+createThumbnailView @ dashboard.js:69
+updateView @ dashboard.js:52
+(anonymous) @ dashboard.js:46
+next @ reference_impl.ts:732
+(anonymous) @ bundle_reader_impl.ts:43
+setTimeout (async)
+Oa @ bundle_reader_impl.ts:32
+next @ async_observer.ts:45
+H_ @ bundle_reader.ts:29
+K_ @ event_manager.ts:330
+__PRIVATE_eventManagerOnWatchChange @ event_manager.ts:173
+__PRIVATE_syncEngineEmitNewSnapsAndNotifyLocalStore @ local_store_impl.ts:813
+await in __PRIVATE_syncEngineEmitNewSnapsAndNotifyLocalStore (async)
+__PRIVATE_syncEngineApplyRemoteEvent @ sync_engine_impl.ts:536
+await in __PRIVATE_syncEngineApplyRemoteEvent (async)
+__PRIVATE_raiseWatchSnapshot @ remote_store.ts:495
+__PRIVATE_onWatchStreamChange @ remote_store.ts:59
+await in __PRIVATE_onWatchStreamChange (async)
+onMessage @ persistent_stream.ts:655
+(anonymous) @ persistent_stream.ts:529
+(anonymous) @ persistent_stream.ts:574
+(anonymous) @ async_queue_impl.ts:137
+(anonymous) @ async_queue_impl.ts:327
+Promise.then (async)
+ou @ async_queue_impl.ts:188
+enqueue @ async_queue_impl.ts:135
+enqueueAndForget @ async_queue_impl.ts:96
+(anonymous) @ persistent_stream.ts:572
+(anonymous) @ persistent_stream.ts:527
+Vo @ webchannel_connection.ts:56
+(anonymous) @ webchannel_connection.ts:397
+(anonymous) @ webchannel_connection.ts:298
+ib @ eventtarget.js:91
+C$1 @ eventtarget.js:490
+R.Aa @ webchannelbasetransport.js:429
+qc @ structs.js:194
+rc @ channelrequest.js:950
+m.Pa @ channelrequest.js:626
+m.nb @ channelrequest.js:656
+ib @ eventtarget.js:91
+C$1 @ eventtarget.js:490
+Ad @ xhrio.js:922
+m.kb @ xhrio.js:1052
+m.La @ xhrio.js:1050
+od @ fetchxmlhttpfactory.js:237
+m.Xa @ fetchxmlhttpfactory.js:419
+Promise.then (async)
+qd @ fetchxmlhttpfactory.js:468
+m.Xa @ fetchxmlhttpfactory.js:425
+Promise.then (async)
+qd @ fetchxmlhttpfactory.js:468
+m.Xa @ fetchxmlhttpfactory.js:425
+Promise.then (async)
+qd @ fetchxmlhttpfactory.js:468
+m.Xa @ fetchxmlhttpfactory.js:425
+Promise.then (async)
+qd @ fetchxmlhttpfactory.js:468
+m.Xa @ fetchxmlhttpfactory.js:425
+Promise.then (async)
+qd @ fetchxmlhttpfactory.js:468
+m.Xa @ fetchxmlhttpfactory.js:425
+Promise.then (async)
+qd @ fetchxmlhttpfactory.js:468
+m.$a @ fetchxmlhttpfactory.js:358
+Promise.then (async)
+m.send @ fetchxmlhttpfactory.js:272
+m.ha @ xhrio.js:739
+ic @ webchanneldebug.js:83
+Md @ webchannelbase.js:2079
+m.Ma @ webchannelbase.js:1718
+ub @ freelist.js:55
+Promise.then (async)
+X @ run.js:115
+Fc @ webchannelbase.js:1686
+qc @ webchannelbase.js:2328
+rc @ channelrequest.js:950
+m.Pa @ channelrequest.js:626
+m.nb @ channelrequest.js:656
+ib @ eventtarget.js:91
+C$1 @ eventtarget.js:490
+Ad @ xhrio.js:922
+m.kb @ xhrio.js:1052
+m.La @ xhrio.js:1050
+od @ fetchxmlhttpfactory.js:237
+m.Xa @ fetchxmlhttpfactory.js:419
+Promise.then (async)
+qd @ fetchxmlhttpfactory.js:468
+m.$a @ fetchxmlhttpfactory.js:358
+Promise.then (async)
+m.send @ fetchxmlhttpfactory.js:272
+m.ha @ xhrio.js:739
+ic @ channelrequest.js:585
+gc @ channelrequest.js:547
+m.Na @ webchannelbase.js:1366
+ub @ freelist.js:55
+Promise.then (async)
+X @ run.js:115
+Gc @ webchannelbase.js:1536
+Q$1.m @ webchannelbasetransport.js:216
+co @ webchannel_connection.ts:265
+send @ stream_bridge.ts:85
+e_ @ persistent_stream.ts:319
+u_ @ persistent_stream.ts:672
+__PRIVATE_sendWatchRequest @ remote_store.ts:357
+(anonymous) @ remote_store.ts:414
+__PRIVATE_onWatchStreamOpen @ remote_store.ts:410
+(anonymous) @ persistent_stream.ts:512
+(anonymous) @ persistent_stream.ts:574
+(anonymous) @ async_queue_impl.ts:137
+(anonymous) @ async_queue_impl.ts:327
+Promise.then (async)
+ou @ async_queue_impl.ts:188
+enqueue @ async_queue_impl.ts:135
+enqueueAndForget @ async_queue_impl.ts:96
+(anonymous) @ persistent_stream.ts:572
+(anonymous) @ persistent_stream.ts:497
+Ao @ webchannel_connection.ts:50
+(anonymous) @ dom.ts:22
+setTimeout (async)
+vo @ dom.ts:19
+__ @ persistent_stream.ts:640
+s_ @ persistent_stream.ts:492
+(anonymous) @ persistent_stream.ts:464
+Promise.then (async)
+auth @ persistent_stream.ts:459
+start @ persistent_stream.ts:263
+__PRIVATE_startWatchStream @ remote_store.ts:389
+__PRIVATE_remoteStoreListen @ remote_store.ts:288
+__PRIVATE_syncEngineListen @ sync_engine_impl.ts:332
+await in __PRIVATE_syncEngineListen (async)
+__PRIVATE_eventManagerListen @ event_manager.ts:99
+__PRIVATE_readDocumentViaSnapshotListener @ firestore_client.ts:484
+(anonymous) @ firestore_client.ts:487
+await in (anonymous) (async)
+(anonymous) @ async_queue_impl.ts:137
+(anonymous) @ async_queue_impl.ts:327
+Promise.then (async)
+ou @ async_queue_impl.ts:188
+enqueue @ async_queue_impl.ts:135
+enqueueAndForget @ async_queue_impl.ts:96
+__PRIVATE_firestoreClientGetDocumentViaSnapshotListener @ firestore_client.ts:650
+getDoc @ reference_impl.ts:105
+fetchUserData @ firebase.js:78
+updateUIOnAuthStateChange @ firebase.js:64
+(anonymous) @ auth_impl.ts:681
+Promise.then (async)
+registerStateListener @ auth_impl.ts:681
+onAuthStateChanged @ auth_impl.ts:482
+onAuthStateChanged @ index.ts:210
+(anonymous) @ firebase.js:72
+Show 56 more frames
+Show less
+Navigated to http://localhost:3000/
+recorderController.js:19 RecorderController initialized
+default-thumbnail.png:1 
+        
+        
+       GET http://localhost:3000/public/images/default-thumbnail.png 404 (Not Found)
+Image (async)
+(anonymous) @ dashboard.js:72
+createThumbnailView @ dashboard.js:69
+updateView @ dashboard.js:52
+(anonymous) @ dashboard.js:46
+next @ reference_impl.ts:732
+(anonymous) @ bundle_reader_impl.ts:43
+setTimeout (async)
+Oa @ bundle_reader_impl.ts:32
+next @ async_observer.ts:45
+H_ @ bundle_reader.ts:29
+K_ @ event_manager.ts:330
+__PRIVATE_eventManagerOnWatchChange @ event_manager.ts:173
+__PRIVATE_syncEngineEmitNewSnapsAndNotifyLocalStore @ local_store_impl.ts:813
+await in __PRIVATE_syncEngineEmitNewSnapsAndNotifyLocalStore (async)
+__PRIVATE_syncEngineApplyRemoteEvent @ sync_engine_impl.ts:536
+await in __PRIVATE_syncEngineApplyRemoteEvent (async)
+__PRIVATE_raiseWatchSnapshot @ remote_store.ts:495
+__PRIVATE_onWatchStreamChange @ remote_store.ts:59
+await in __PRIVATE_onWatchStreamChange (async)
+onMessage @ persistent_stream.ts:655
+(anonymous) @ persistent_stream.ts:529
+(anonymous) @ persistent_stream.ts:574
+(anonymous) @ async_queue_impl.ts:137
+(anonymous) @ async_queue_impl.ts:327
+Promise.then (async)
+ou @ async_queue_impl.ts:188
+enqueue @ async_queue_impl.ts:135
+enqueueAndForget @ async_queue_impl.ts:96
+(anonymous) @ persistent_stream.ts:572
+(anonymous) @ persistent_stream.ts:527
+Vo @ webchannel_connection.ts:56
+(anonymous) @ webchannel_connection.ts:397
+(anonymous) @ webchannel_connection.ts:298
+ib @ eventtarget.js:91
+C$1 @ eventtarget.js:490
+R.Aa @ webchannelbasetransport.js:429
+qc @ structs.js:194
+rc @ channelrequest.js:950
+m.Pa @ channelrequest.js:626
+m.nb @ channelrequest.js:656
+ib @ eventtarget.js:91
+C$1 @ eventtarget.js:490
+Ad @ xhrio.js:922
+m.kb @ xhrio.js:1052
+m.La @ xhrio.js:1050
+od @ fetchxmlhttpfactory.js:237
+m.Xa @ fetchxmlhttpfactory.js:419
+Promise.then (async)
+qd @ fetchxmlhttpfactory.js:468
+m.$a @ fetchxmlhttpfactory.js:358
+Promise.then (async)
+m.send @ fetchxmlhttpfactory.js:272
+m.ha @ xhrio.js:739
+ic @ webchanneldebug.js:83
+Md @ webchannelbase.js:2079
+m.Ma @ webchannelbase.js:1718
+ub @ freelist.js:55
+Promise.then (async)
+X @ run.js:115
+Fc @ webchannelbase.js:1686
+qc @ webchannelbase.js:2328
+rc @ channelrequest.js:950
+m.Pa @ channelrequest.js:626
+m.nb @ channelrequest.js:656
+ib @ eventtarget.js:91
+C$1 @ eventtarget.js:490
+Ad @ xhrio.js:922
+m.kb @ xhrio.js:1052
+m.La @ xhrio.js:1050
+od @ fetchxmlhttpfactory.js:237
+m.Xa @ fetchxmlhttpfactory.js:419
+Promise.then (async)
+qd @ fetchxmlhttpfactory.js:468
+m.$a @ fetchxmlhttpfactory.js:358
+Promise.then (async)
+m.send @ fetchxmlhttpfactory.js:272
+m.ha @ xhrio.js:739
+ic @ channelrequest.js:585
+gc @ channelrequest.js:547
+m.Na @ webchannelbase.js:1366
+ub @ freelist.js:55
+Promise.then (async)
+X @ run.js:115
+Gc @ webchannelbase.js:1536
+Q$1.m @ webchannelbasetransport.js:216
+co @ webchannel_connection.ts:265
+send @ stream_bridge.ts:85
+e_ @ persistent_stream.ts:319
+u_ @ persistent_stream.ts:672
+__PRIVATE_sendWatchRequest @ remote_store.ts:357
+(anonymous) @ remote_store.ts:414
+__PRIVATE_onWatchStreamOpen @ remote_store.ts:410
+(anonymous) @ persistent_stream.ts:512
+(anonymous) @ persistent_stream.ts:574
+(anonymous) @ async_queue_impl.ts:137
+(anonymous) @ async_queue_impl.ts:327
+Promise.then (async)
+ou @ async_queue_impl.ts:188
+enqueue @ async_queue_impl.ts:135
+enqueueAndForget @ async_queue_impl.ts:96
+(anonymous) @ persistent_stream.ts:572
+(anonymous) @ persistent_stream.ts:497
+Ao @ webchannel_connection.ts:50
+(anonymous) @ dom.ts:22
+setTimeout (async)
+vo @ dom.ts:19
+__ @ persistent_stream.ts:640
+s_ @ persistent_stream.ts:492
+(anonymous) @ persistent_stream.ts:464
+Promise.then (async)
+auth @ persistent_stream.ts:459
+start @ persistent_stream.ts:263
+__PRIVATE_startWatchStream @ remote_store.ts:389
+__PRIVATE_remoteStoreListen @ remote_store.ts:288
+__PRIVATE_syncEngineListen @ sync_engine_impl.ts:332
+await in __PRIVATE_syncEngineListen (async)
+__PRIVATE_eventManagerListen @ event_manager.ts:99
+__PRIVATE_readDocumentViaSnapshotListener @ firestore_client.ts:484
+(anonymous) @ firestore_client.ts:487
+await in (anonymous) (async)
+(anonymous) @ async_queue_impl.ts:137
+(anonymous) @ async_queue_impl.ts:327
+Promise.then (async)
+ou @ async_queue_impl.ts:188
+enqueue @ async_queue_impl.ts:135
+enqueueAndForget @ async_queue_impl.ts:96
+__PRIVATE_firestoreClientGetDocumentViaSnapshotListener @ firestore_client.ts:650
+getDoc @ reference_impl.ts:105
+fetchUserData @ firebase.js:78
+updateUIOnAuthStateChange @ firebase.js:64
+(anonymous) @ auth_impl.ts:681
+Promise.then (async)
+registerStateListener @ auth_impl.ts:681
+onAuthStateChanged @ auth_impl.ts:482
+onAuthStateChanged @ index.ts:210
+(anonymous) @ firebase.js:72
+Show 46 more frames
+Show less
+default-thumbnail.png:1 
+        
+        
+       GET http://localhost:3000/public/images/default-thumbnail.png 404 (Not Found)
